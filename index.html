@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>DarkDonate | Премиум донат магазин DarkYo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            color: #e8e4ff;
+            line-height: 1.5;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Галактический фон */
+        @keyframes galaxyMove {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 30% 40%, #2a1a4a, #0f0f2a, #050510);
+            background-size: 400% 400%;
+            animation: galaxyMove 30s ease infinite;
+            z-index: -5;
+        }
+
+        /* Туманности */
+        .nebula {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(138,92,255,0.2), transparent 70%),
+                        radial-gradient(circle at 80% 70%, rgba(255,102,170,0.15), transparent 70%);
+            animation: nebulaPulse 12s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -4;
+        }
+
+        @keyframes nebulaPulse {
+            0%,100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* Звезды */
+        .stars-3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -3;
+        }
+
+        .star-3d {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: starTwinkle 3s infinite alternate;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        @keyframes starTwinkle {
+            0% { opacity: 0.2; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* Метеоры */
+        .meteor {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: linear-gradient(135deg, #fff, #c8a2ff);
+            border-radius: 50%;
+            box-shadow: 0 0 15px #c8a2ff;
+            animation: meteorFall 4s linear infinite;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        @keyframes meteorFall {
+            0% { transform: translateX(-100px) translateY(-100px) rotate(45deg); opacity: 1; }
+            100% { transform: translateX(100vw) translateY(100vh) rotate(45deg); opacity: 0; }
+        }
+
+        /* Руны */
+        .rune {
+            position: fixed;
+            font-family: monospace;
+            font-size: 28px;
+            opacity: 0.08;
+            animation: runeFloat 8s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+            user-select: none;
+        }
+
+        @keyframes runeFloat {
+            0%,100% { opacity: 0.05; transform: translateY(0); }
+            50% { opacity: 0.15; transform: translateY(-20px); }
+        }
+
+        /* Голографические линии */
+        .hologram {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(138,92,255,0.08) 40px, rgba(138,92,255,0.08) 41px);
+            pointer-events: none;
+            z-index: -1;
+            animation: hologramMove 15s linear infinite;
+        }
+
+        @keyframes hologramMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(40px); }
+        }
+
+        /* Световой луч */
+        .light-beam {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(138,92,255,0.12), transparent);
+            pointer-events: none;
+            z-index: 0;
+            animation: lightBeamMove 10s linear infinite;
+        }
+
+        @keyframes lightBeamMove {
+            0% { transform: translateX(-100%) skewX(-15deg); }
+            100% { transform: translateX(200%) skewX(-15deg); }
+        }
+
+        /* Магические сферы */
+        .magic-orb {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(138,92,255,0.15), transparent);
+            filter: blur(60px);
+            animation: orbFloat 25s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        @keyframes orbFloat {
+            0%,100% { transform: translate(0,0) scale(1); opacity: 0.3; }
+            50% { transform: translate(100px,50px) scale(1.3); opacity: 0.6; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Музыкальный плеер */
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(20px);
+            padding: 15px 25px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            border: 1px solid rgba(138,92,255,0.6);
+            cursor: pointer;
+            transition: all 0.4s;
+        }
+
+        .music-player:hover {
+            transform: scale(1.1) translateY(-5px);
+            border-color: #c8a2ff;
+            box-shadow: 0 0 50px rgba(138,92,255,0.6);
+        }
+
+        .music-wave {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .music-wave span {
+            width: 4px;
+            background: linear-gradient(180deg, #c8a2ff, #8a5cff);
+            animation: musicWave 0.8s ease-in-out infinite;
+            border-radius: 2px;
+        }
+
+        @keyframes musicWave {
+            0%,100% { height: 8px; }
+            50% { height: 25px; }
+        }
+
+        /* Шапка */
+        .header {
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-bottom: 1px solid rgba(150,100,255,0.3);
+            margin-bottom: 20px;
+            animation: headerEnter 1s cubic-bezier(0.68,-0.55,0.265,1.55);
+        }
+
+        @keyframes headerEnter {
+            from { opacity: 0; transform: translateY(-80px) rotateX(-30deg); }
+            to { opacity: 1; transform: translateY(0) rotateX(0); }
+        }
+
+        .logo h1 {
+            font-size: 36px;
+            background: linear-gradient(135deg, #c8a2ff, #8a5cff, #ff66aa, #ffaa44);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { filter: drop-shadow(0 0 10px rgba(138,92,255,0.3)); }
+            100% { filter: drop-shadow(0 0 40px rgba(138,92,255,0.8)); }
+        }
+
+        .logo p {
+            font-size: 12px;
+            color: #a090d0;
+            margin-top: 5px;
+        }
+
+        /* Карточка пользователя */
+        .user-card {
+            background: linear-gradient(135deg, #1a1540, #0f0a30);
+            border-radius: 60px;
+            padding: 8px 25px;
+            border: 1px solid rgba(200,162,255,0.5);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 0 20px rgba(138,92,255,0.3);
+        }
+
+        .user-avatar {
+            font-size: 32px;
+            color: #ffd966;
+        }
+
+        .user-info h3 {
+            font-size: 12px;
+            color: #a090d0;
+            font-weight: 400;
+        }
+
+        .user-info .nickname {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .user-info .balance {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffd966;
+        }
+
+        .auth-btn {
+            background: linear-gradient(135deg, #8a5cff, #5a2cd8);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .auth-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(138,92,255,0.5);
+        }
+
+        /* Навигация */
+        .nav-wrapper {
+            background: rgba(3,3,15,0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 60px;
+            padding: 8px 20px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(138,92,255,0.4);
+            animation: slideDown 0.6s cubic-bezier(0.34,1.2,0.64,1);
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav a {
+            color: #d0bcff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 40px;
+            transition: all 0.4s;
+            background: rgba(138,92,255,0.05);
+        }
+
+        .nav a:hover {
+            color: #fff;
+            background: rgba(138,92,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .admin-badge {
+            background: linear-gradient(135deg, #ff4444, #aa2222);
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-left: 8px;
+            display: inline-block;
+            animation: badgePulse 1s infinite;
+        }
+
+        @keyframes badgePulse {
+            0%,100% { box-shadow: 0 0 0 0 rgba(255,68,68,0.7); }
+            50% { box-shadow: 0 0 0 5px rgba(255,68,68,0); }
+        }
+
+        /* Категории */
+        .categories {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cat-btn {
+            background: rgba(20,15,50,0.9);
+            border: 1px solid rgba(138,92,255,0.5);
+            padding: 10px 24px;
+            border-radius: 50px;
+            color: #c8b0f0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cat-btn.active, .cat-btn:hover {
+            background: linear-gradient(135deg, #8a5cff, #5a2cd8);
+            color: white;
+            box-shadow: 0 0 25px rgba(138,92,255,0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Товары */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 35px;
+            margin: 40px 0;
+            perspective: 1000px;
+        }
+
+        .product-card {
+            background: rgba(8,6,25,0.7);
+            backdrop-filter: blur(15px);
+            border-radius: 32px;
+            padding: 30px;
+            transition: all 0.5s cubic-bezier(0.68,-0.55,0.265,1.55);
+            border: 1px solid rgba(138,92,255,0.3);
+            animation: cardEnter 0.6s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(138,92,255,0.25), transparent);
+            transition: left 0.6s;
+        }
+
+        .product-card:hover::before {
+            left: 100%;
+        }
+
+        @keyframes cardEnter {
+            from { opacity: 0; transform: translateY(80px) rotateX(-20deg); }
+            to { opacity: 1; transform: translateY(0) rotateX(0); }
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            border-color: #c8a2ff;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 50px rgba(138,92,255,0.5);
+        }
+
+        .product-icon {
+            font-size: 72px;
+            margin-bottom: 20px;
+            transition: all 0.4s;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px rgba(138,92,255,0.5));
+        }
+
+        .product-card:hover .product-icon {
+            transform: scale(1.2) rotate(10deg);
+            filter: drop-shadow(0 0 30px rgba(200,162,255,1));
+        }
+
+        .product-title {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+
+        .product-card:hover .product-title {
+            background: linear-gradient(135deg, #fff, #c8a2ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .product-desc {
+            color: #b0a0d0;
+            font-size: 13px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .product-price {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffdd88, #ffaa44);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .free-badge {
+            background: linear-gradient(135deg, #44ff88, #2a9a4a);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 16px;
+            font-weight: 600;
+            animation: badgePulseGreen 1.5s infinite;
+        }
+
+        @keyframes badgePulseGreen {
+            0%,100% { box-shadow: 0 0 5px #44ff88; }
+            50% { box-shadow: 0 0 20px #44ff88; }
+        }
+
+        .case-badge {
+            background: linear-gradient(135deg, #ff6600, #ff3300);
+            color: white;
+            font-size: 14px;
+            padding: 6px 16px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 16px;
+            font-weight: 600;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%,100% { opacity: 1; }
+            50% { opacity: 0.7; transform: scale(0.98); }
+        }
+
+        .case-items {
+            background: rgba(0,0,0,0.5);
+            border-radius: 16px;
+            padding: 12px;
+            margin: 12px 0;
+            font-size: 11px;
+            color: #c8a2ff;
+        }
+
+        .buy-btn {
+            background: linear-gradient(135deg, #8a5cff, #5a2cd8);
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .buy-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            transform: translate(-50%,-50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .buy-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .buy-btn:hover {
+            transform: scale(0.98);
+            box-shadow: 0 5px 30px rgba(138,92,255,0.7);
+        }
+
+        .buy-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .telegram-btn {
+            background: linear-gradient(135deg, #26A5E4, #1a6f9e);
+            margin-top: 10px;
+        }
+
+        /* Секции */
+        .section {
+            display: none;
+            animation: sectionEnter 0.6s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes sectionEnter {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Правила */
+        .rules-container {
+            background: rgba(5,4,18,0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 45px;
+            padding: 50px;
+            border: 1px solid rgba(138,92,255,0.5);
+            animation: rulesGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes rulesGlow {
+            0%,100% { box-shadow: 0 0 20px rgba(138,92,255,0.2); }
+            50% { box-shadow: 0 0 60px rgba(138,92,255,0.5); }
+        }
+
+        .rule-card {
+            background: rgba(138,92,255,0.1);
+            border-radius: 28px;
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+            border-left: 4px solid #8a5cff;
+        }
+
+        .rule-card:hover {
+            transform: translateX(15px);
+            background: rgba(138,92,255,0.25);
+            border-left-color: #ffaa44;
+        }
+
+        .rule-card h3 {
+            margin-bottom: 15px;
+            color: #c8a2ff;
+            font-size: 24px;
+        }
+
+        .rule-card ul {
+            margin-left: 25px;
+        }
+
+        .rule-card li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        /* Новости */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .news-card {
+            background: rgba(10,8,30,0.9);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid rgba(138,92,255,0.4);
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            border-color: #c8a2ff;
+        }
+
+        .news-date {
+            font-size: 12px;
+            color: #8a7ab0;
+            margin-bottom: 10px;
+        }
+
+        .news-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #c8a2ff;
+        }
+
+        .news-content {
+            color: #b0a0d0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .news-delete {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,68,68,0.2);
+            border: none;
+            color: #ff6666;
+            cursor: pointer;
+            padding: 5px 8px;
+            border-radius: 50%;
+        }
+
+        /* Поддержка */
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+            margin: 45px 0;
+        }
+
+        .support-card-epic {
+            background: linear-gradient(135deg, rgba(138,92,255,0.2), rgba(90,44,216,0.2));
+            padding: 40px;
+            border-radius: 40px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.68,-0.55,0.265,1.55);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(138,92,255,0.4);
+        }
+
+        .support-card-epic::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
+            transform: rotate(45deg);
+            animation: cardShine 8s linear infinite;
+        }
+
+        @keyframes cardShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .support-card-epic:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: #c8a2ff;
+            box-shadow: 0 30px 60px rgba(138,92,255,0.5);
+        }
+
+        .support-card-epic i {
+            font-size: 72px;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .support-card-epic:hover i {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .support-contact {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+            background: rgba(0,0,0,0.3);
+            padding: 8px;
+            border-radius: 50px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .support-time {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        /* Админ панель */
+        .admin-dashboard {
+            background: linear-gradient(135deg, rgba(10,8,30,0.95), rgba(5,4,18,0.95));
+            backdrop-filter: blur(20px);
+            border-radius: 45px;
+            padding: 45px;
+            border: 1px solid rgba(138,92,255,0.6);
+            animation: adminPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes adminPulse {
+            0%,100% { box-shadow: 0 0 20px rgba(138,92,255,0.2); }
+            50% { box-shadow: 0 0 50px rgba(138,92,255,0.5); }
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 45px;
+        }
+
+        .stat-card {
+            background: rgba(138,92,255,0.15);
+            border-radius: 28px;
+            padding: 28px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            background: rgba(138,92,255,0.3);
+        }
+
+        .stat-number {
+            font-size: 52px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffaa44, #ff66aa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            overflow-x: auto;
+            display: block;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 18px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .admin-table th {
+            background: rgba(138,92,255,0.3);
+            font-weight: 700;
+        }
+
+        .status-pending {
+            color: #ffaa44;
+            font-weight: bold;
+        }
+
+        .status-completed {
+            color: #44ff88;
+            font-weight: bold;
+        }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #2a6a2a, #1a4a1a);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 35px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .complete-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(68,255,136,0.5);
+        }
+
+        .delete-btn {
+            background: linear-gradient(135deg, #aa2a2a, #6a1a1a);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 35px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .delete-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255,68,68,0.5);
+        }
+
+        /* Модальные окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.98);
+            backdrop-filter: blur(50px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #120e2a, #08061a);
+            max-width: 550px;
+            width: 90%;
+            border-radius: 60px;
+            padding: 45px;
+            border: 2px solid #c8a2ff;
+            text-align: center;
+            animation: modalPop 0.5s cubic-bezier(0.34,1.2,0.64,1);
+        }
+
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.5) rotateX(-30deg); }
+            to { opacity: 1; transform: scale(1) rotateX(0); }
+        }
+
+        .modal-content input, .modal-content textarea {
+            width: 100%;
+            padding: 16px;
+            margin: 15px 0;
+            border-radius: 60px;
+            border: 1px solid #8a5cff;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .modal-content textarea {
+            border-radius: 30px;
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .payment-input {
+            padding: 14px 18px;
+            background: rgba(20,15,45,0.9);
+            border: 1px solid rgba(138,92,255,0.5);
+            border-radius: 60px;
+            color: white;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .payment-btn {
+            background: linear-gradient(135deg, #8a5cff, #5a2cd8);
+            border: none;
+            padding: 14px;
+            border-radius: 60px;
+            color: white;
+            cursor: pointer;
+            font-weight: 700;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            background: rgba(138,92,255,0.2);
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .auth-tab.active {
+            background: linear-gradient(135deg, #8a5cff, #5a2cd8);
+            color: white;
+        }
+
+        .verification-code {
+            font-size: 56px;
+            letter-spacing: 15px;
+            background: rgba(0,0,0,0.5);
+            padding: 25px;
+            border-radius: 35px;
+            margin: 25px 0;
+            font-family: monospace;
+            font-weight: bold;
+            color: #c8a2ff;
+        }
+
+        .case-win-item {
+            background: linear-gradient(135deg, #ffaa44, #ff8844);
+            border-radius: 20px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(138,92,255,0.3);
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav a {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+            .product-title {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="nebula"></div>
+<div class="stars-3d" id="stars3d"></div>
+<div class="hologram"></div>
+<div class="light-beam"></div>
+<div class="magic-orb" style="top: -15%; left: -15%;"></div>
+<div class="magic-orb" style="bottom: -15%; right: -15%; animation-delay: -10s;"></div>
+<div id="meteors"></div>
+<div id="runes"></div>
+
+<div class="music-player" id="musicPlayer">
+    <i class="fas fa-music"></i>
+    <div class="music-wave">
+        <span style="animation-delay: 0s"></span>
+        <span style="animation-delay: 0.2s"></span>
+        <span style="animation-delay: 0.4s"></span>
+        <span style="animation-delay: 0.6s"></span>
+        <span style="animation-delay: 0.8s"></span>
+    </div>
+    <span>✨ EPIC FANTASY ✨</span>
+    <i class="fas fa-play" id="playPauseBtn"></i>
+</div>
+<audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <h1><i class="fas fa-skull"></i> DARKDONATE</h1>
+            <p>⚡ ПРЕМИУМ ДОНАТ МАГАЗИН СЕРВЕРА DARKYO ⚡</p>
+            <p style="font-size: 12px; margin-top: 5px;">✨ ЛУЧШИЕ КИТЫ | 👑 ЭКСКЛЮЗИВНЫЕ ПРЕФИКСЫ | 🎁 КЕЙСЫ | ✨ ЭФФЕКТЫ ✨</p>
+        </div>
+        <div class="user-card">
+            <div class="user-avatar"><i class="fas fa-user-astronaut"></i></div>
+            <div class="user-info">
+                <h3>АККАУНТ</h3>
+                <div class="nickname" id="userNickname">Гость</div>
+                <div class="balance" id="userBalanceDisplay">0 ₽</div>
+            </div>
+            <button class="auth-btn" id="authBtn">Войти</button>
+            <button class="auth-btn" id="depositBtn" style="background: linear-gradient(135deg, #44aa44, #2a6a2a);"><i class="fas fa-plus-circle"></i> Пополнить</button>
+        </div>
+    </div>
+
+    <div class="nav-wrapper">
+        <div class="nav">
+            <a id="nav-shop"><i class="fas fa-home"></i> Главная</a>
+            <a id="nav-donate"><i class="fas fa-gem"></i> Донат</a>
+            <a id="nav-news"><i class="fas fa-newspaper"></i> Новости</a>
+            <a id="nav-rules"><i class="fas fa-gavel"></i> Правила</a>
+            <a id="nav-support"><i class="fas fa-headset"></i> Поддержка</a>
+            <a id="nav-admin"><i class="fas fa-user-shield"></i> Админ-панель <span class="admin-badge">ADMIN</span></a>
+        </div>
+    </div>
+
+    <div id="shop-section" class="section active">
+        <div class="categories" id="categories-container"></div>
+        <div class="products-grid" id="products-grid"></div>
+    </div>
+
+    <div id="news-section" class="section">
+        <div class="rules-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h2><i class="fas fa-newspaper"></i> Последние новости сервера</h2>
+                <button id="add-news-btn" class="payment-btn" style="width: auto; padding: 8px 20px; display: none;">+ Добавить</button>
+            </div>
+            <div id="news-grid" class="news-grid"></div>
+        </div>
+    </div>
+
+    <div id="rules-section" class="section">
+        <div class="rules-container">
+            <h2 style="font-size: 48px; text-align: center; margin-bottom: 35px;"><i class="fas fa-gavel"></i> ⚔️ ПРАВИЛА СЕРВЕРА DARKYO ⚔️</h2>
+            <div style="background: linear-gradient(135deg, rgba(138,92,255,0.3), rgba(90,44,216,0.3)); padding: 30px; border-radius: 35px; margin-bottom: 35px; text-align: center;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 32px;"></i>
+                <strong style="font-size: 22px; display: block; margin-top: 12px;">ВАЖНО!</strong>
+                <p style="font-size: 16px;">Играя на сервере, вы автоматически соглашаетесь со всеми правилами. Нарушение карается от предупреждения до блокировки.</p>
+            </div>
+
+            <div class="rule-card"><h3><i class="fas fa-comments"></i> 📢 1. ОБЩЕНИЕ И УВАЖЕНИЕ</h3>
+                <ul><li>❌ Запрещены оскорбления игроков и администрации в любом виде (чат, личные сообщения, никнеймы)</li><li>❌ Запрещён спам, флуд, капс, реклама других проектов</li><li>❌ Запрещена токсичность, провокации и разжигание конфликтов</li><li>❌ Запрещены любые формы дискриминации (расовой, национальной, религиозной)</li></ul>
+            </div>
+            <div class="rule-card"><h3><i class="fas fa-gamepad"></i> ⚔️ 2. ИГРОВОЙ ПРОЦЕСС</h3>
+                <ul><li>❌ Запрещены читы, макросы, моды, дающие преимущество (X-Ray, автоклик, кликеры, ESP, Aimbot)</li><li>❌ Запрещены любые виды гриферства (разрушение построек, воровство) на приваченных территориях</li><li>⚔️ PvP разрешён только в определённых зонах или по согласию сторон</li><li>⚠️ Запрещено использование багов и ошибок сервера для получения преимущества</li><li>🏠 Запрещена охота на новичков в PvP зонах</li></ul>
+            </div>
+            <div class="rule-card"><h3><i class="fas fa-coins"></i> 💰 3. ДОНАТ</h3>
+                <ul><li>💎 Донат является добровольным пожертвованием, возврат средств возможен только в исключительных случаях</li><li>⚠️ Приобретённые предметы и привилегии не возвращаются при блокировке за нарушение правил</li><li>🔄 Запрещён обмен донат-предметами на игровые ценности без участия администрации</li><li>🎁 Все донат-покупки фиксируются в системе</li><li>🤖 Оплата через Telegram бота — моментально</li></ul>
+            </div>
+            <div class="rule-card"><h3><i class="fas fa-crown"></i> 👑 4. АДМИНИСТРАЦИЯ</h3>
+                <ul><li>📜 Решение администрации является окончательным и обжалованию не подлежит</li><li>🚫 Запрещено выдавать себя за администратора, вводить игроков в заблуждение</li><li>📝 Необоснованные жалобы и клевета на администрацию караются санкциями</li><li>💬 Администрация всегда открыта для диалога в официальных каналах связи</li></ul>
+            </div>
+            <div class="rule-card"><h3><i class="fas fa-shield-alt"></i> 🛡️ 5. БЕЗОПАСНОСТЬ</h3>
+                <ul><li>🔐 Не передавайте свой пароль и данные аккаунта третьим лицам</li><li>⚠️ Администрация НИКОГДА не просит пароль от аккаунта</li><li>📱 Все официальные каналы связи указаны в разделе "Поддержка"</li><li>🔒 При подозрении на взлом — немедленно свяжитесь с администрацией</li></ul>
+            </div>
+            <div class="rule-card"><h3><i class="fas fa-building"></i> 🏰 6. ПОСТРОЙКИ И ТЕРРИТОРИИ</h3>
+                <ul><li>🏠 Приват-зоны выдаются после 10 часов игры</li><li>📏 Максимальный размер привата: 100x100 блоков</li><li>❌ Запрещены постройки, мешающие другим игрокам</li><li>🌲 Запрещена вырубка леса в чужих приватах</li><li>🏗️ Неактивные приваты (>30 дней) могут быть сняты</li></ul>
+            </div>
+            <div class="rule-card"><h3><i class="fas fa-store"></i> 🛒 7. ЭКОНОМИКА И ТОРГОВЛЯ</h3>
+                <ul><li>💰 Внутриигровая валюта — монеты, зарабатываются на мобах и торговле</li><li>🔄 Запрещён обмен валюты между игроками без регистрации сделки</li><li>❌ Запрещено создание финансовых пирамид и мошенничество</li><li>📊 Администрация может корректировать цены на ресурсы</li></ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="support-section" class="section">
+        <div class="rules-container">
+            <h2 style="font-size: 48px; text-align: center; margin-bottom: 25px;"><i class="fas fa-headset"></i> 🎧 СЛУЖБА ПОДДЕРЖКИ 24/7 🎧</h2>
+            <p style="text-align: center; margin-bottom: 45px; font-size: 18px;">🌟 МЫ ВСЕГДА ОНЛАЙН! ОТВЕТИМ НА ЛЮБОЙ ВОПРОС ЗА 5-30 МИНУТ 🌟</p>
+
+            <div class="support-grid">
+                <div class="support-card-epic" onclick="copyToClipboard('@DarkYo_offical')">
+                    <i class="fab fa-telegram" style="color: #26A5E4;"></i>
+                    <h3 style="font-size: 28px;">TELEGRAM</h3>
+                    <div class="support-contact">@DarkYo_offical</div>
+                    <p>📞 +375336426214</p>
+                    <div class="support-time">⚡ Мгновенные уведомления | Ответ: 5-15 минут</div>
+                </div>
+                <div class="support-card-epic" onclick="copyToClipboard('geminioffical')">
+                    <i class="fab fa-discord" style="color: #5865F2;"></i>
+                    <h3 style="font-size: 28px;">DISCORD</h3>
+                    <div class="support-contact">geminioffical</div>
+                    <p>🎮 Сервер DarkYo</p>
+                    <div class="support-time">🎧 Голосовые каналы 24/7 | Ответ: 5-20 минут</div>
+                </div>
+                <div class="support-card-epic" onclick="copyToClipboard('+375336426214')">
+                    <i class="fab fa-viber" style="color: #8B5F9E;"></i>
+                    <h3 style="font-size: 28px;">VIBER</h3>
+                    <div class="support-contact">+375336426214</div>
+                    <p>📱 Мгновенные сообщения</p>
+                    <div class="support-time">💬 Круглосуточно | Ответ: 5-30 минут</div>
+                </div>
+            </div>
+
+            <div class="support-grid">
+                <div class="support-card-epic" onclick="window.open('https://www.youtube.com/@Minecraft-stories0', '_blank')">
+                    <i class="fab fa-youtube" style="color: #FF0000;"></i>
+                    <h3>YOUTUBE</h3>
+                    <p>@Minecraft-stories0</p>
+                    <div class="support-time">🎬 Видеообзоры, гайды, обновления сервера</div>
+                </div>
+                <div class="support-card-epic" onclick="window.open('https://www.tiktok.com/@iwantsaveaworld', '_blank')">
+                    <i class="fab fa-tiktok"></i>
+                    <h3>TIKTOK 1</h3>
+                    <p>@iwantsaveaworld</p>
+                    <div class="support-time">🎥 Короткие видео, моменты с сервера</div>
+                </div>
+                <div class="support-card-epic" onclick="window.open('https://www.tiktok.com/@dani4ka55055', '_blank')">
+                    <i class="fab fa-tiktok"></i>
+                    <h3>TIKTOK 2</h3>
+                    <p>@dani4ka55055</p>
+                    <div class="support-time">🎥 Контент сервера, стримы, нарезки</div>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; margin-top: 50px; font-size: 36px;">❓ ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</h3>
+            <div class="support-grid">
+                <div class="support-card-epic"><i class="fas fa-star"></i><h4>⭐ Telegram Stars оплата</h4><p>Мгновенная оплата через бота @DarkYoDonateBot</p><div class="support-time">✅ Рекомендуемый способ</div></div>
+                <div class="support-card-epic"><i class="fas fa-clock"></i><h4>⏱️ Как долго ждать выдачу?</h4><p>До 5 минут после подтверждения платежа. В пиковые часы до 10 минут.</p><div class="support-time">🚀 Быстрая выдача</div></div>
+                <div class="support-card-epic"><i class="fas fa-question-circle"></i><h4>📞 Что делать, если товар не пришёл?</h4><p>Немедленно свяжитесь в Telegram, Discord или Viber. Решим за 5 минут!</p><div class="support-time">💬 24/7 поддержка</div></div>
+                <div class="support-card-epic"><i class="fas fa-gift"></i><h4>🎁 Как получить бесплатный кит?</h4><p>Нажмите "Получить" на ките Старт в магазине и введите свой никнейм.</p><div class="support-time">🎉 Для новых игроков</div></div>
+                <div class="support-card-epic"><i class="fas fa-credit-card"></i><h4>💳 Какие способы оплаты?</h4><p>Telegram Stars (мгновенно), банковские карты, Беларусь Банк, ЮMoney, Qiwi.</p><div class="support-time">💸 Все способы</div></div>
+                <div class="support-card-epic"><i class="fas fa-undo-alt"></i><h4>🔄 Можно ли вернуть донат?</h4><p>Донат является добровольным пожертвованием. Возврат только в исключительных случаях.</p><div class="support-time">⚠️ Политика возврата</div></div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, rgba(138,92,255,0.2), rgba(90,44,216,0.2)); border-radius: 35px; padding: 30px; margin-top: 40px; text-align: center;">
+                <i class="fas fa-headset" style="font-size: 48px;"></i>
+                <h3 style="margin: 15px 0;">⚡ СВЯЖИТЕСЬ С НАМИ ПРЯМО СЕЙЧАС! ⚡</h3>
+                <p>Нажмите на любой контакт выше, чтобы скопировать и связаться с поддержкой</p>
+                <p style="margin-top: 15px; font-size: 14px;">🕐 Работаем 24/7 без выходных!</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-section" class="section">
+        <div class="admin-dashboard">
+            <h2 style="font-size: 48px; text-align: center; margin-bottom: 35px;"><i class="fas fa-user-shield"></i> 👑 АДМИН-ПАНЕЛЬ 👑</h2>
+            <div id="admin-login" style="text-align: center;">
+                <input type="password" id="admin-pass" placeholder="🔑 ВВЕДИТЕ ПАРОЛЬ: darkyosigma" style="width: 350px; padding: 16px; border-radius: 60px; background: rgba(0,0,0,0.5); border: 1px solid #8a5cff; color: white; text-align: center;">
+                <br><br>
+                <button onclick="checkAdminPass()" class="complete-btn" style="padding: 14px 50px;">🔓 ВОЙТИ</button>
+            </div>
+            <div id="admin-panel" style="display: none;">
+                <div class="admin-stats" id="admin-stats"></div>
+                <div style="margin-bottom: 25px; text-align: center;">
+                    <div style="background: rgba(38,165,228,0.2); border-radius: 30px; padding: 20px; margin-bottom: 20px;">
+                        <i class="fab fa-telegram" style="font-size: 28px;"></i>
+                        <strong>🤖 Telegram бот активен!</strong><br>
+                        <span style="color: #44ff88;">✅ @DarkYoDonateBot принимает платежи Stars</span><br>
+                        <small>💳 Карта: <strong>9112 3801 3310 4473</strong></small>
+                    </div>
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <input type="text" id="search-order" placeholder="🔍 ПОИСК ПО ЗАКАЗАМ..." style="padding: 14px; border-radius: 60px; background: rgba(0,0,0,0.5); border: 1px solid #8a5cff; color: white; width: 300px;" onkeyup="filterOrders()">
+                        <select id="status-filter" class="admin-filter" onchange="filterOrders()" style="padding: 14px; border-radius: 60px; background: rgba(0,0,0,0.5); border: 1px solid #8a5cff; color: white;">
+                            <option value="all">📊 ВСЕ ЗАКАЗЫ</option>
+                            <option value="pending">⏳ ОЖИДАЮТ</option>
+                            <option value="completed">✅ ВЫПОЛНЕНЫ</option>
+                        </select>
+                        <button onclick="exportOrders()" class="complete-btn" style="background: #8a5cff;">📥 ЭКСПОРТ</button>
+                    </div>
+                </div>
+                <h3>📋 СПИСОК ЗАКАЗОВ</h3>
+                <div id="orders-list"></div>
+                <div style="margin-top: 35px; text-align: center;">
+                    <button onclick="logoutAdmin()" class="complete-btn" style="background: #442266;">🚪 ВЫЙТИ</button>
+                    <button onclick="refreshAdminPanel()" class="complete-btn"><i class="fas fa-sync-alt"></i> ОБНОВИТЬ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>© 2025 DARKDONATE — ПРЕМИУМ ДОНАТ МАГАЗИН СЕРВЕРА DARKYO</p>
+    <p style="margin-top: 10px;"><i class="fab fa-telegram"></i> @DarkYo_offical | <i class="fab fa-discord"></i> geminioffical | <i class="fab fa-viber"></i> +375336426214 | 🤖 Бот: @DarkYoDonateBot</p>
+    <p style="margin-top: 5px;">💳 КАРТА ДЛЯ ОПЛАТЫ: <strong>9112 3801 3310 4473</strong></p>
+</div>
+
+<!-- Модальные окна -->
+<div id="authModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-user-circle" style="font-size: 56px; color: #ffd966;"></i>
+        <h2>Вход / Регистрация</h2>
+        <div class="auth-tabs">
+            <div class="auth-tab active" data-tab="login">Вход</div>
+            <div class="auth-tab" data-tab="register">Регистрация</div>
+        </div>
+        <div id="loginForm">
+            <input type="text" id="loginNick" class="payment-input" placeholder="👤 Никнейм">
+            <input type="password" id="loginPass" class="payment-input" placeholder="🔒 Пароль">
+            <button id="loginBtn" class="payment-btn">Войти</button>
+        </div>
+        <div id="registerForm" style="display:none;">
+            <input type="text" id="regNick" class="payment-input" placeholder="👤 Никнейм (3-16 символов)">
+            <input type="password" id="regPass" class="payment-input" placeholder="🔒 Пароль (мин. 4)">
+            <input type="password" id="regPassConfirm" class="payment-input" placeholder="🔒 Подтвердите пароль">
+            <button id="registerBtn" class="payment-btn">Зарегистрироваться</button>
+        </div>
+        <button id="closeAuthModal" class="payment-btn" style="background: #442266; margin-top: 15px;">Отмена</button>
+    </div>
+</div>
+
+<div id="balanceModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-credit-card" style="font-size: 48px; color: #ffd966;"></i>
+        <h2>Пополнение счета</h2>
+        <input type="text" id="cardNumber" class="payment-input" placeholder="Номер карты (16 цифр)" maxlength="19">
+        <div style="display: flex; gap: 15px;">
+            <input type="text" id="cardExpiry" class="payment-input" placeholder="ММ/ГГ" maxlength="5">
+            <input type="text" id="cardCvc" class="payment-input" placeholder="CVC" maxlength="4">
+        </div>
+        <input type="text" id="cardName" class="payment-input" placeholder="Имя владельца">
+        <input type="text" id="depositAmount" class="payment-input" placeholder="Сумма (от 50 ₽)">
+        <div class="bank-badge"><i class="fas fa-shield-alt"></i> Защищенный платеж</div>
+        <button id="confirmDepositBtn" class="payment-btn">ПОПОЛНИТЬ</button>
+        <button id="closeBalanceModal" class="payment-btn" style="background: #442266; margin-top: 12px;">Отмена</button>
+    </div>
+</div>
+
+<div id="nicknameModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-gift" style="font-size: 56px; color: #44ff88;"></i>
+        <h3 id="free-kit-name">Кит Старт</h3>
+        <p>Введите ваш игровой никнейм</p>
+        <input type="text" id="free-nick-input" class="payment-input" placeholder="Никнейм">
+        <button id="confirm-free-btn" class="payment-btn">Получить</button>
+        <button id="cancel-free-btn" class="payment-btn" style="background: #442266; margin-top: 10px;">Отмена</button>
+    </div>
+</div>
+
+<div id="caseResultModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-gem" style="font-size: 56px; color: #ffaa44;"></i>
+        <h3 id="case-open-name"></h3>
+        <div id="case-result-details"></div>
+        <button id="close-case-result" class="payment-btn">Закрыть</button>
+    </div>
+</div>
+
+<div id="addNewsModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-newspaper" style="font-size: 48px; color: #c8a2ff;"></i>
+        <h3>Добавить новость</h3>
+        <input type="text" id="news-title" class="payment-input" placeholder="Заголовок">
+        <textarea id="news-text" class="payment-input" placeholder="Текст новости..."></textarea>
+        <button id="save-news-btn" class="payment-btn">Сохранить</button>
+        <button id="cancel-news-btn" class="payment-btn" style="background: #442266; margin-top: 10px;">Отмена</button>
+    </div>
+</div>
+
+<div id="resultModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-check-circle" style="font-size: 64px; color: #44ff88;"></i>
+        <h2 id="result-status"></h2>
+        <p id="result-message"></p>
+        <button id="close-result" class="payment-btn">Закрыть</button>
+    </div>
+</div>
+
+<script>
+    // ==================== ТОВАРЫ (КИТЫ, ПРЕФИКСЫ, КЕЙСЫ, ЭФФЕКТЫ) ====================
+    const products = [
+        // КИТЫ
+        { id: 1, name: "&aКит Старт", desc: "🎁 БЕСПЛАТНО! Каменные инструменты, еда, базовая броня для новичков", price: 0, icon: "fas fa-seedling", category: "kits", free: true, color: "#aaffaa" },
+        { id: 2, name: "&7Кит Plus", desc: "🛡️ Полуалмазная броня (защита I) | ⚔️ Меч острота I | 🍎 12 золотых яблок | 🦅 Элитры", price: 9, icon: "fas fa-plus-circle", category: "kits", color: "#cccccc" },
+        { id: 3, name: "&9Кит Редкий", desc: "💎 Алмазная броня (защита II) | ⚔️ Меч острота II | 💎 24 алмаза | 🧿 Тотем бессмертия", price: 19, icon: "fas fa-gem", category: "kits", color: "#55aaff" },
+        { id: 4, name: "&5Кит Епик", desc: "🔥 Полунезерит (защита III) | ⚔️ Меч острота III | 🍎 Зачарованное яблоко", price: 29, icon: "fas fa-star", category: "kits", color: "#aa55ff" },
+        { id: 5, name: "&dКит Мифик", desc: "👑 Незерит (защита III) | ⚔️ Меч+Копье острота III | 🍎 2 зачарованных яблока", price: 37, icon: "fas fa-dragon", category: "kits", color: "#ff55dd" },
+        { id: 6, name: "&6Кит Легендарный", desc: "⚜️ Фулл незерит (защита IV) | ⚔️ Меч острота IV | 🍎 6 зачарованных яблок | 🏹 Лук сила II", price: 39, icon: "fas fa-crown", category: "kits", color: "#ffaa44" },
+        { id: 7, name: "&cКит Супер Легендарный", desc: "💪 Абсолютная мощь! Лучшие зачарования, топовые предметы", price: 49, icon: "fas fa-fire", category: "kits", color: "#ff6644" },
+        { id: 8, name: "&4Кит Лорда", desc: "👑 Власть повелителя. Незерит максимальной прокачки", price: 59, icon: "fas fa-chess-king", category: "kits", color: "#ff4444" },
+        { id: 9, name: "&eКит Бога", desc: "🌟 Божественный набор. Абсолютное могущество!", price: 99, icon: "fas fa-bolt", category: "kits", color: "#ffff44" },
+        // ПРЕФИКСЫ
+        { id: 10, name: "&7Префикс Плюс", desc: "✨ Эксклюзивный префикс Plus в чате", price: 19, icon: "fas fa-plus-square", category: "prefixes", color: "#cccccc" },
+        { id: 11, name: "&9Префикс Алмаз", desc: "✨ Эксклюзивный префикс Алмаз в чате", price: 39, icon: "fas fa-gem", category: "prefixes", color: "#55aaff" },
+        { id: 12, name: "&5Префикс Дракон", desc: "✨ Эксклюзивный префикс Дракон в чате", price: 59, icon: "fas fa-dragon", category: "prefixes", color: "#ff55dd" },
+        { id: 13, name: "&eПрефикс Звезда", desc: "✨ Эксклюзивный префикс Звезда в чате", price: 99, icon: "fas fa-star", category: "prefixes", color: "#ffff44" },
+        { id: 14, name: "&6Префикс Лорд", desc: "✨ Эксклюзивный префикс Лорд в чате", price: 129, icon: "fas fa-crown", category: "prefixes", color: "#ffaa44" },
+        { id: 15, name: "&aПрефикс Бог", desc: "✨ Эксклюзивный префикс Бог в чате", price: 149, icon: "fas fa-bolt", category: "prefixes", color: "#aaffaa" },
+        { id: 16, name: "&4Префикс Темный Лорд", desc: "✨ САМЫЙ РЕДКИЙ! Тьма и величие", price: 199, icon: "fas fa-skull", category: "prefixes", color: "#ff4444" },
+        // КЕЙСЫ
+        { id: 17, name: "&7Обычный кейс", desc: "Содержит полезные ресурсы и предметы", price: 49, icon: "fas fa-box", category: "cases", caseItems: ["20 алмазов", "Незеритовый слиток", "Зачарованное яблоко", "Редкий префикс"], color: "#cccccc" },
+        { id: 18, name: "&bЭпический кейс", desc: "Повышенный шанс на легендарные предметы", price: 99, icon: "fas fa-gem", category: "cases", caseItems: ["Кит Легендарный", "Префикс Дракон", "32 незерита", "Элитры"], color: "#aa55ff" },
+        { id: 19, name: "&6Легендарный кейс", desc: "Самые ценные предметы. Гарантированный легендарный предмет!", price: 199, icon: "fas fa-crown", category: "cases", caseItems: ["Кит Бога", "Префикс Темный Лорд", "64 незерита", "Кит Легендарный"], color: "#ffaa44" },
+        { id: 20, name: "&cПремиум кейс", desc: "Эксклюзивные предметы. Максимальный шанс на топовые награды!", price: 299, icon: "fas fa-star-of-life", category: "cases", caseItems: ["Кит Лорда", "Префикс Бог", "Незеритовый блок x10", "Уникальный префикс"], color: "#ff66aa" },
+        // ЭФФЕКТЫ
+        { id: 21, name: "✨ Алмазные частицы", desc: "Эффект парящих алмазов вокруг персонажа", price: 149, icon: "fas fa-gem", category: "effects", color: "#55aaff" },
+        { id: 22, name: "🦅 Крылья Эндера", desc: "Декоративные крылья за спиной (элитры не требуются)", price: 249, icon: "fas fa-feather-alt", category: "effects", color: "#aa55ff" },
+        { id: 23, name: "🔥 Аура огня", desc: "Эффект огненных частиц вокруг персонажа", price: 299, icon: "fas fa-fire", category: "effects", color: "#ff6644" },
+        { id: 24, name: "✨ Радужный след", desc: "Красочный след за персонажем", price: 199, icon: "fas fa-rainbow", category: "effects", color: "#ff66aa" },
+        { id: 25, name: "🌙 Лунный свет", desc: "Мягкое свечение вокруг персонажа", price: 129, icon: "fas fa-moon", category: "effects", color: "#ccccff" }
+    ];
+
+    let news = [
+        { id: 1, title: "🎉 ОТКРЫТИЕ СЕРВЕРА DARKYO!", content: "Сервер официально открыт! Каждый новый игрок получает стартовый набор. IP: play.darkyo.ru", date: "2025-03-24" },
+        { id: 2, title: "✨ НОВЫЕ ДОНАТ-КЕЙСЫ!", content: "В донат-магазине появились 4 новых кейса с уникальными предметами!", date: "2025-03-23" },
+        { id: 3, title: "⚔️ ПЕРВЫЙ ИВЕНТ - БИТВА КЛАНОВ!", content: "В эти выходные состоится масштабный ивент. Регистрация в Discord!", date: "2025-03-22" }
+    ];
+
+    let db = null, adminAuth = false, currentUser = null;
+    let activeCat = "all";
+    let broadcastChannel = null;
+
+    // ==================== ПОЛЬЗОВАТЕЛИ (localStorage) ====================
+    function loadUsers() {
+        let u = localStorage.getItem("darkdonate_users");
+        if (!u) {
+            let def = { "admin": { nickname: "admin", password: "admin123", balance: 99999 } };
+            localStorage.setItem("darkdonate_users", JSON.stringify(def));
+            return def;
+        }
+        return JSON.parse(u);
+    }
+
+    function saveUsers(users) {
+        localStorage.setItem("darkdonate_users", JSON.stringify(users));
+    }
+
+    function getUserLocal(nick) {
+        return loadUsers()[nick] || null;
+    }
+
+    function addUserLocal(user) {
+        let users = loadUsers();
+        if (users[user.nickname]) return false;
+        users[user.nickname] = user;
+        saveUsers(users);
+        return true;
+    }
+
+    function updateUserLocal(user) {
+        let users = loadUsers();
+        users[user.nickname] = user;
+        saveUsers(users);
+    }
+
+    // ==================== INDEXEDDB ====================
+    function initDB() {
+        return new Promise((resolve) => {
+            let req = indexedDB.open("DarkDonateDB", 8);
+            req.onupgradeneeded = (e) => {
+                let db = e.target.result;
+                if (!db.objectStoreNames.contains("orders")) {
+                    db.createObjectStore("orders", { keyPath: "id", autoIncrement: true });
+                }
+                if (!db.objectStoreNames.contains("news")) {
+                    let newsStore = db.createObjectStore("news", { keyPath: "id", autoIncrement: true });
+                    newsStore.transaction.oncomplete = () => {
+                        let store = db.transaction("news", "readwrite").objectStore("news");
+                        news.forEach(n => store.add(n));
+                    };
+                }
+            };
+            req.onsuccess = () => { db = req.result; resolve(); };
+        });
+    }
+
+    function addOrder(order) {
+        return new Promise((res) => {
+            let tx = db.transaction("orders", "readwrite");
+            let req = tx.objectStore("orders").add(order);
+            req.onsuccess = () => {
+                if (broadcastChannel) broadcastChannel.postMessage({ type: "UPDATE" });
+                res(req.result);
+            };
+        });
+    }
+
+    function getOrders() {
+        return new Promise((res) => {
+            let tx = db.transaction("orders", "readonly");
+            let req = tx.objectStore("orders").getAll();
+            req.onsuccess = () => res(req.result || []);
+        });
+    }
+
+    function updateOrder(id, status) {
+        return new Promise((res) => {
+            let tx = db.transaction("orders", "readwrite");
+            let store = tx.objectStore("orders");
+            store.get(id).onsuccess = (e) => {
+                let o = e.target.result;
+                if (o) {
+                    o.status = status;
+                    store.put(o).onsuccess = () => res();
+                } else res();
+            };
+        });
+    }
+
+    function getNewsDB() {
+        return new Promise((res) => {
+            let tx = db.transaction("news", "readonly");
+            let req = tx.objectStore("news").getAll();
+            req.onsuccess = () => res(req.result.sort((a,b)=>b.id-a.id) || []);
+        });
+    }
+
+    function addNewsDB(item) {
+        return new Promise((res) => {
+            let tx = db.transaction("news", "readwrite");
+            let req = tx.objectStore("news").add(item);
+            req.onsuccess = () => res();
+        });
+    }
+
+    function deleteNewsDB(id) {
+        return new Promise((res) => {
+            let tx = db.transaction("news", "readwrite");
+            let req = tx.objectStore("news").delete(id);
+            req.onsuccess = () => res();
+        });
+    }
+
+    // ==================== ВСПОМОГАТЕЛЬНЫЕ ====================
+    function parseColorCodes(text) {
+        let colors = {
+            '&0':'#000','&1':'#00A','&2':'#0A0','&3':'#0AA','&4':'#A00','&5':'#A0A',
+            '&6':'#FA0','&7':'#AAA','&8':'#555','&9':'#55F','&a':'#5F5','&b':'#5FF',
+            '&c':'#F55','&d':'#F5F','&e':'#FF5','&f':'#FFF'
+        };
+        let result = text;
+        for (let [code, color] of Object.entries(colors)) {
+            result = result.replace(new RegExp(code, 'g'), `<span style="color:${color};">`);
+        }
+        result += '</span>'.repeat((result.match(/<span/g)||[]).length);
+        return result;
+    }
+
+    function showResult(title, msg) {
+        document.getElementById("result-status").innerHTML = title;
+        document.getElementById("result-message").innerHTML = msg;
+        document.getElementById("resultModal").style.display = "flex";
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text);
+        let toast = document.createElement('div');
+        toast.textContent = `📋 СКОПИРОВАНО: ${text}`;
+        toast.style.position = 'fixed';
+        toast.style.bottom = '100px';
+        toast.style.left = '20px';
+        toast.style.background = '#8a5cff';
+        toast.style.padding = '10px 20px';
+        toast.style.borderRadius = '50px';
+        toast.style.zIndex = '2000';
+        toast.style.animation = 'fadeOut 2s forwards';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
+    }
+
+    // ==================== UI ====================
+    function updateUserUI() {
+        if (currentUser) {
+            document.getElementById("userNickname").innerHTML = currentUser.nickname;
+            document.getElementById("userBalanceDisplay").innerHTML = currentUser.balance + " ₽";
+            document.getElementById("authBtn").innerHTML = "Выйти";
+            document.getElementById("authBtn").classList.add("logout-btn");
+        } else {
+            document.getElementById("userNickname").innerHTML = "Гость";
+            document.getElementById("userBalanceDisplay").innerHTML = "0 ₽";
+            document.getElementById("authBtn").innerHTML = "Войти";
+            document.getElementById("authBtn").classList.remove("logout-btn");
+        }
+        renderProducts();
+    }
+
+    function openAuthModal() { document.getElementById("authModal").style.display = "flex"; }
+
+    function login() {
+        let nick = document.getElementById("loginNick").value.trim();
+        let pass = document.getElementById("loginPass").value;
+        if (!nick || !pass) { alert("Введите никнейм и пароль!"); return; }
+        let user = getUserLocal(nick);
+        if (!user || user.password !== pass) { alert("Неверный никнейм или пароль!"); return; }
+        currentUser = user;
+        document.getElementById("authModal").style.display = "none";
+        updateUserUI();
+        showResult("✅ Вход выполнен!", `Добро пожаловать, ${nick}! Баланс: ${user.balance} ₽`);
+        document.getElementById("loginNick").value = "";
+        document.getElementById("loginPass").value = "";
+    }
+
+    function register() {
+        let nick = document.getElementById("regNick").value.trim();
+        let pass = document.getElementById("regPass").value;
+        let confirm = document.getElementById("regPassConfirm").value;
+        if (nick.length < 3 || nick.length > 16) { alert("Никнейм должен быть от 3 до 16 символов!"); return; }
+        if (pass.length < 4) { alert("Пароль должен быть минимум 4 символа!"); return; }
+        if (pass !== confirm) { alert("Пароли не совпадают!"); return; }
+        let existing = getUserLocal(nick);
+        if (existing) { alert("Пользователь с таким ником уже существует!"); return; }
+        let newUser = { nickname: nick, password: pass, balance: 0 };
+        addUserLocal(newUser);
+        currentUser = newUser;
+        document.getElementById("authModal").style.display = "none";
+        updateUserUI();
+        showResult("✅ Регистрация успешна!", `Добро пожаловать, ${nick}! Баланс: 0 ₽`);
+        document.getElementById("regNick").value = "";
+        document.getElementById("regPass").value = "";
+        document.getElementById("regPassConfirm").value = "";
+    }
+
+    function logout() {
+        currentUser = null;
+        updateUserUI();
+        showResult("👋 Выход выполнен", "Вы вышли из аккаунта");
+    }
+
+    // ==================== ПОКУПКИ И КЕЙСЫ ====================
+    function openNickname(prod) {
+        window.currentFreeProd = prod;
+        document.getElementById("free-kit-name").innerHTML = parseColorCodes(prod.name);
+        document.getElementById("free-nick-input").value = "";
+        document.getElementById("nicknameModal").style.display = "flex";
+    }
+
+    function confirmFree() {
+        let nick = document.getElementById("free-nick-input").value.trim();
+        if (!nick) { alert("Введите никнейм!"); return; }
+        document.getElementById("nicknameModal").style.display = "none";
+        showResult("🎁 Кит получен!", `${window.currentFreeProd.name.replace(/&[0-9a-z]/g, '')} выдан игроку ${nick}`);
+        window.currentFreeProd = null;
+    }
+
+    function openPurchase(prod) {
+        if (!currentUser) { openAuthModal(); return; }
+        if (prod.price > currentUser.balance) {
+            alert(`❌ Недостаточно средств! Нужно ${prod.price} ₽, у вас ${currentUser.balance} ₽`);
+            return;
+        }
+        if (confirm(`Купить ${prod.name.replace(/&[0-9a-z]/g, '')} за ${prod.price} ₽?`)) {
+            currentUser.balance -= prod.price;
+            updateUserLocal(currentUser);
+            addOrder({
+                productId: prod.id,
+                productName: prod.name.replace(/&[0-9a-z]/g, ''),
+                price: prod.price,
+                playerNick: currentUser.nickname,
+                paymentMethod: "Баланс",
+                type: "Товар",
+                date: new Date().toISOString(),
+                status: "pending"
+            });
+            updateUserUI();
+            showResult("✅ Покупка успешна!", `Вы купили ${prod.name.replace(/&[0-9a-z]/g, '')} за ${prod.price} ₽. Ожидайте выдачи.`);
+        }
+    }
+
+    function openCase(prod) {
+        if (!currentUser) { openAuthModal(); return; }
+        if (prod.price > currentUser.balance) {
+            alert(`❌ Недостаточно средств! Нужно ${prod.price} ₽, у вас ${currentUser.balance} ₽`);
+            return;
+        }
+        if (confirm(`Открыть кейс "${prod.name.replace(/&[0-9a-z]/g, '')}" за ${prod.price} ₽?`)) {
+            currentUser.balance -= prod.price;
+            updateUserLocal(currentUser);
+            let randomItem = prod.caseItems[Math.floor(Math.random() * prod.caseItems.length)];
+            addOrder({
+                productId: prod.id,
+                caseName: prod.name.replace(/&[0-9a-z]/g, ''),
+                wonItem: randomItem,
+                price: prod.price,
+                playerNick: currentUser.nickname,
+                paymentMethod: "Баланс",
+                type: "Кейс",
+                date: new Date().toISOString(),
+                status: "pending"
+            });
+            updateUserUI();
+            document.getElementById("case-open-name").innerHTML = parseColorCodes(prod.name);
+            document.getElementById("case-result-details").innerHTML = `<div class="case-win-item"><h3>🎉 Поздравляем, ${currentUser.nickname}!</h3><p style="font-size:28px;font-weight:bold;">${randomItem}</p><p>Предмет будет выдан администратором</p></div>`;
+            document.getElementById("caseResultModal").style.display = "flex";
+        }
+    }
+
+    // ==================== ПОПОЛНЕНИЕ ====================
+    function validateCardNumber(num) {
+        let clean = num.replace(/\s/g, '');
+        if (!/^\d{16}$/.test(clean)) return false;
+        let sum = 0, alt = false;
+        for (let i = clean.length-1; i>=0; i--) {
+            let n = parseInt(clean[i]);
+            if (alt) { n *= 2; if (n>9) n = (n%10)+1; }
+            sum += n;
+            alt = !alt;
+        }
+        return sum % 10 === 0;
+    }
+
+    function validateExpiry(exp) {
+        if (!/^\d{2}\/\d{2}$/.test(exp)) return false;
+        let [m,y] = exp.split('/');
+        let month = parseInt(m), year = parseInt(y);
+        let now = new Date();
+        let curYear = now.getFullYear() % 100, curMonth = now.getMonth()+1;
+        if (month<1 || month>12) return false;
+        if (year < curYear) return false;
+        if (year === curYear && month < curMonth) return false;
+        return true;
+    }
+
+    function validateCVC(cvc) { return /^\d{3,4}$/.test(cvc); }
+
+    async function deposit() {
+        if (!currentUser) { alert("Войдите в аккаунт!"); openAuthModal(); return; }
+        let cardNum = document.getElementById("cardNumber").value.trim();
+        let expiry = document.getElementById("cardExpiry").value.trim();
+        let cvc = document.getElementById("cardCvc").value.trim();
+        let amount = parseInt(document.getElementById("depositAmount").value.trim());
+        if (!validateCardNumber(cardNum)) { alert("Неверный номер карты!"); return; }
+        if (!validateExpiry(expiry)) { alert("Неверный срок действия!"); return; }
+        if (!validateCVC(cvc)) { alert("Неверный CVC код!"); return; }
+        if (isNaN(amount) || amount < 50) { alert("Минимальная сумма 50 ₽"); return; }
+        currentUser.balance += amount;
+        updateUserLocal(currentUser);
+        addOrder({
+            productName: "Пополнение баланса",
+            price: amount,
+            playerNick: currentUser.nickname,
+            paymentMethod: `Карта **** ${cardNum.slice(-4)}`,
+            type: "Пополнение",
+            date: new Date().toISOString(),
+            status: "completed"
+        });
+        updateUserUI();
+        document.getElementById("balanceModal").style.display = "none";
+        document.getElementById("cardNumber").value = "";
+        document.getElementById("cardExpiry").value = "";
+        document.getElementById("cardCvc").value = "";
+        document.getElementById("cardName").value = "";
+        document.getElementById("depositAmount").value = "";
+        showResult("💰 Пополнение успешно!", `Счет пополнен на ${amount} ₽. Новый баланс: ${currentUser.balance} ₽`);
+    }
+
+    // ==================== НОВОСТИ ====================
+    async function renderNews() {
+        let list = await getNewsDB();
+        let grid = document.getElementById("news-grid");
+        if (!list.length) {
+            grid.innerHTML = "<div style='text-align:center;padding:60px;'>Новостей пока нет</div>";
+            return;
+        }
+        grid.innerHTML = list.map(n => `
+            <div class="news-card">
+                ${adminAuth ? `<button class="news-delete" data-id="${n.id}"><i class="fas fa-trash"></i></button>` : ""}
+                <div class="news-date">${n.date}</div>
+                <div class="news-title">${n.title}</div>
+                <div class="news-content">${n.content}</div>
+            </div>
+        `).join("");
+        if (adminAuth) {
+            document.querySelectorAll(".news-delete").forEach(btn => {
+                btn.onclick = async () => {
+                    if (confirm("Удалить новость?")) {
+                        await deleteNewsDB(parseInt(btn.dataset.id));
+                        renderNews();
+                    }
+                };
+            });
+        }
+    }
+
+    // ==================== АДМИН-ПАНЕЛЬ ====================
+    async function loadAdminPanel() {
+        if (!adminAuth) { showAdminLogin(); return; }
+        let orders = await getOrders();
+        let totalAmount = orders.reduce((s, o) => s + o.price, 0);
+        let pendingOrders = orders.filter(o => o.status === "pending").length;
+        document.getElementById("admin-stats").innerHTML = `
+            <div class="stat-card"><div class="stat-number">${orders.length}</div><div>📦 ВСЕГО ЗАКАЗОВ</div></div>
+            <div class="stat-card"><div class="stat-number">${totalAmount.toLocaleString()} ₽</div><div>💰 ОБЩАЯ СУММА</div></div>
+            <div class="stat-card"><div class="stat-number">${pendingOrders}</div><div>⏳ ОЖИДАЮТ ВЫДАЧИ</div></div>
+        `;
+        renderAdminOrders();
+    }
+
+    function renderAdminOrders() {
+        let orders = JSON.parse(localStorage.getItem("admin_orders_cache") || "[]");
+        let search = document.getElementById("search-order")?.value.toLowerCase() || "";
+        let statusFilter = document.getElementById("status-filter")?.value || "all";
+        let filtered = orders.filter(o => {
+            let matchStatus = statusFilter === "all" || o.status === statusFilter;
+            let matchSearch = (o.productName || o.caseName || "").toLowerCase().includes(search) ||
+                              (o.playerNick || "").toLowerCase().includes(search) ||
+                              o.id.toString().includes(search);
+            return matchStatus && matchSearch;
+        }).sort((a,b) => b.id - a.id);
+
+        if (filtered.length === 0) {
+            document.getElementById("orders-list").innerHTML = '<p style="text-align:center;padding:50px;">✨ НЕТ ЗАКАЗОВ ✨</p>';
+            return;
+        }
+
+        document.getElementById("orders-list").innerHTML = `
+            <table class="admin-table">
+                <thead><tr><th>ID</th><th>📅 ДАТА</th><th>🎁 ТОВАР</th><th>💰 ЦЕНА</th><th>👤 ИГРОК</th><th>📊 СТАТУС</th><th>⚡ ДЕЙСТВИЕ</th></tr></thead>
+                <tbody>
+                    ${filtered.map(o => `
+                        <tr>
+                            <td>#${o.id}</td>
+                            <td>${new Date(o.date).toLocaleString()}</td>
+                            <td><strong>${o.productName || o.caseName || '—'}</strong></td>
+                            <td>${o.price} ₽</td>
+                            <td>${o.playerNick || '—'}</td>
+                            <td class="${o.status === 'completed' ? 'status-completed' : 'status-pending'}">${o.status === 'completed' ? '✅ ВЫДАН' : '⏳ ОЖИДАЕТ'}</td>
+                            <td>${o.status === 'pending' ? `<button class="complete-btn" onclick="completeOrder(${o.id})">🎁 ВЫДАТЬ</button>` : `<button class="delete-btn" onclick="deleteOrder(${o.id})">🗑️ УДАЛИТЬ</button>`}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
+
+    async function refreshAdminPanel() {
+        let orders = await getOrders();
+        localStorage.setItem("admin_orders_cache", JSON.stringify(orders));
+        renderAdminOrders();
+    }
+
+    async function completeOrder(id) {
+        await updateOrder(id, "completed");
+        refreshAdminPanel();
+        showResult("✅ Товар выдан", "Заказ отмечен как выполненный");
+    }
+
+    async function deleteOrder(id) {
+        if (confirm("Удалить заказ?")) {
+            let orders = await getOrders();
+            orders = orders.filter(o => o.id !== id);
+            localStorage.setItem("admin_orders_cache", JSON.stringify(orders));
+            // В реальном приложении нужно удалять из IndexedDB
+            refreshAdminPanel();
+            showResult("🗑️ Заказ удален", "Заказ удален из списка");
+        }
+    }
+
+    function filterOrders() { renderAdminOrders(); }
+
+    function exportOrders() {
+        let orders = JSON.parse(localStorage.getItem("admin_orders_cache") || "[]");
+        let data = JSON.stringify(orders, null, 2);
+        let blob = new Blob([data], {type: 'application/json'});
+        let url = URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = `darkdonate_orders_${new Date().toISOString()}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showResult("📥 ЭКСПОРТ ВЫПОЛНЕН", `Сохранено ${orders.length} заказов`);
+    }
+
+    function checkAdminPass() {
+        let pass = document.getElementById("admin-pass").value;
+        if (pass === "darkyosigma") {
+            adminAuth = true;
+            document.getElementById("admin-login").style.display = "none";
+            document.getElementById("admin-panel").style.display = "block";
+            document.getElementById("add-news-btn").style.display = "block";
+            refreshAdminPanel();
+        } else {
+            alert("❌ НЕВЕРНЫЙ ПАРОЛЬ!");
+        }
+    }
+
+    function logoutAdmin() {
+        adminAuth = false;
+        document.getElementById("admin-login").style.display = "block";
+        document.getElementById("admin-panel").style.display = "none";
+        document.getElementById("add-news-btn").style.display = "none";
+        document.getElementById("admin-pass").value = "";
+    }
+
+    // ==================== ТОВАРЫ (РЕНДЕР) ====================
+    function renderProducts() {
+        let filtered = activeCat === "all" ? products : products.filter(p => p.category === activeCat);
+        let grid = document.getElementById("products-grid");
+        if (!filtered.length) {
+            grid.innerHTML = "<div style='text-align:center;padding:60px;'>✨ Товаров нет ✨</div>";
+            return;
+        }
+        grid.innerHTML = filtered.map(p => `
+            <div class="product-card">
+                <div class="product-icon"><i class="${p.icon}" style="color: ${p.color}"></i></div>
+                <div class="product-title">${parseColorCodes(p.name)}</div>
+                <div class="product-desc">${p.desc}</div>
+                ${p.free ? '<div class="free-badge">🎁 БЕСПЛАТНО 🎁</div>' : 
+                  (p.category === "cases" ? `<div class="case-badge">🎲 КЕЙС</div><div class="product-price">₽ ${p.price}</div><div class="case-items">🎁 Возможные награды: ${p.caseItems.join(", ")}</div>` : 
+                  `<div class="product-price">₽ ${p.price}</div>`)}
+                <button class="buy-btn" data-id="${p.id}" ${!currentUser && !p.free ? 'disabled' : ''}>
+                    <i class="fas fa-${p.free ? "gift" : (p.category === "cases" ? "dice-d6" : "shopping-cart")}"></i> 
+                    ${p.free ? "Получить" : (p.category === "cases" ? "Открыть кейс" : "Купить")}
+                </button>
+                ${!p.free ? `<button class="buy-btn telegram-btn" data-id="${p.id}" data-telegram="1"><i class="fab fa-telegram"></i> Оплатить Telegram</button>` : ''}
+            </div>
+        `).join("");
+
+        document.querySelectorAll(".buy-btn").forEach(btn => {
+            btn.onclick = () => {
+                if (btn.disabled) { alert("❌ Для покупки необходимо войти в аккаунт!"); openAuthModal(); return; }
+                let prod = products.find(p => p.id == parseInt(btn.dataset.id));
+                if (btn.hasAttribute("data-telegram")) {
+                    let botUrl = `https://t.me/DarkYoDonateBot?start=order_${Date.now()}_${prod.id}_${prod.name.replace(/&[0-9a-z]/g, '')}_${prod.price}`;
+                    window.open(botUrl, '_blank');
+                    showResult("🤖 Переход в Telegram бота", "Откройте Telegram бот для оплаты. После оплаты товар будет выдан автоматически.");
+                } else if (prod.free) openNickname(prod);
+                else if (prod.category === "cases") openCase(prod);
+                else openPurchase(prod);
+            };
+        });
+    }
+
+    // ==================== НАВИГАЦИЯ ====================
+    const sections = {
+        shop: document.getElementById("shop-section"),
+        news: document.getElementById("news-section"),
+        rules: document.getElementById("rules-section"),
+        support: document.getElementById("support-section"),
+        admin: document.getElementById("admin-section")
+    };
+
+    document.getElementById("nav-shop").onclick = () => {
+        Object.values(sections).forEach(s => s.style.display = "none");
+        sections.shop.style.display = "block";
+        renderProducts();
+    };
+    document.getElementById("nav-donate").onclick = () => {
+        Object.values(sections).forEach(s => s.style.display = "none");
+        sections.shop.style.display = "block";
+        renderProducts();
+    };
+    document.getElementById("nav-news").onclick = () => {
+        Object.values(sections).forEach(s => s.style.display = "none");
+        sections.news.style.display = "block";
+        renderNews();
+    };
+    document.getElementById("nav-rules").onclick = () => {
+        Object.values(sections).forEach(s => s.style.display = "none");
+        sections.rules.style.display = "block";
+    };
+    document.getElementById("nav-support").onclick = () => {
+        Object.values(sections).forEach(s => s.style.display = "none");
+        sections.support.style.display = "block";
+    };
+    document.getElementById("nav-admin").onclick = () => {
+        Object.values(sections).forEach(s => s.style.display = "none");
+        sections.admin.style.display = "block";
+        if (!adminAuth) { document.getElementById("admin-login").style.display = "block"; document.getElementById("admin-panel").style.display = "none"; }
+        else loadAdminPanel();
+    };
+
+    function initCategories() {
+        let cats = document.getElementById("categories-container");
+        cats.innerHTML = `
+            <button class="cat-btn active" data-cat="all">✨ Все товары</button>
+            <button class="cat-btn" data-cat="kits">⚔️ Киты</button>
+            <button class="cat-btn" data-cat="prefixes">👑 Префиксы</button>
+            <button class="cat-btn" data-cat="cases">🎁 Кейсы</button>
+            <button class="cat-btn" data-cat="effects">✨ Эффекты</button>
+        `;
+        document.querySelectorAll(".cat-btn").forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                activeCat = btn.dataset.cat;
+                renderProducts();
+            };
+        });
+    }
+
+    // ==================== ОБРАБОТЧИКИ ====================
+    document.getElementById("authBtn").onclick = () => { if (currentUser) logout(); else openAuthModal(); };
+    document.getElementById("depositBtn").onclick = () => {
+        if (!currentUser) { alert("Войдите в аккаунт!"); openAuthModal(); }
+        else document.getElementById("balanceModal").style.display = "flex";
+    };
+    document.getElementById("closeAuthModal").onclick = () => document.getElementById("authModal").style.display = "none";
+    document.getElementById("loginBtn").onclick = login;
+    document.getElementById("registerBtn").onclick = register;
+    document.getElementById("confirm-free-btn").onclick = confirmFree;
+    document.getElementById("cancel-free-btn").onclick = () => document.getElementById("nicknameModal").style.display = "none";
+    document.getElementById("close-case-result").onclick = () => document.getElementById("caseResultModal").style.display = "none";
+    document.getElementById("close-result").onclick = () => document.getElementById("resultModal").style.display = "none";
+    document.getElementById("closeBalanceModal").onclick = () => document.getElementById("balanceModal").style.display = "none";
+    document.getElementById("confirmDepositBtn").onclick = deposit;
+    document.getElementById("add-news-btn").onclick = () => document.getElementById("addNewsModal").style.display = "flex";
+    document.getElementById("save-news-btn").onclick = async () => {
+        let title = document.getElementById("news-title").value.trim();
+        let content = document.getElementById("news-text").value.trim();
+        if (!title || !content) { alert("Заполните поля!"); return; }
+        await addNewsDB({ title, content, date: new Date().toISOString().split("T")[0] });
+        document.getElementById("addNewsModal").style.display = "none";
+        renderNews();
+    };
+    document.getElementById("cancel-news-btn").onclick = () => document.getElementById("addNewsModal").style.display = "none";
+
+    document.querySelectorAll(".auth-tab").forEach(tab => {
+        tab.onclick = () => {
+            document.querySelectorAll(".auth-tab").forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
+            document.getElementById("loginForm").style.display = tab.dataset.tab === "login" ? "block" : "none";
+            document.getElementById("registerForm").style.display = tab.dataset.tab === "register" ? "block" : "none";
+        };
+    });
+
+    window.onclick = (e) => {
+        if (e.target.classList.contains("modal")) e.target.style.display = "none";
+    };
+
+    // ==================== ЗВЁЗДЫ И ЭФФЕКТЫ ====================
+    for (let i = 0; i < 400; i++) {
+        let s = document.createElement('div');
+        s.className = 'star-3d';
+        s.style.width = Math.random() * 4 + 1 + 'px';
+        s.style.height = s.style.width;
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.animationDelay = Math.random() * 5 + 's';
+        document.getElementById('stars3d').appendChild(s);
+    }
+
+    for (let i = 0; i < 30; i++) {
+        let m = document.createElement('div');
+        m.className = 'meteor';
+        m.style.left = Math.random() * 100 + '%';
+        m.style.animationDelay = Math.random() * 5 + 's';
+        document.getElementById('meteors').appendChild(m);
+    }
+
+    const runesList = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ', 'ᚺ', 'ᚾ', 'ᛁ', 'ᛃ', 'ᛈ', 'ᛇ', 'ᛉ', 'ᛊ', 'ᛋ', 'ᛌ', 'ᛍ', 'ᛎ', 'ᛏ'];
+    for (let i = 0; i < 120; i++) {
+        let r = document.createElement('div');
+        r.className = 'rune';
+        r.textContent = runesList[Math.floor(Math.random() * runesList.length)];
+        r.style.left = Math.random() * 100 + '%';
+        r.style.top = Math.random() * 100 + '%';
+        r.style.fontSize = (Math.random() * 28 + 18) + 'px';
+        document.getElementById('runes').appendChild(r);
+    }
+
+    // ==================== МУЗЫКА ====================
+    const audio = document.getElementById('bgMusic');
+    const playBtn = document.getElementById('playPauseBtn');
+    let isPlaying = false;
+    document.getElementById('musicPlayer').onclick = () => {
+        if (isPlaying) {
+            audio.pause();
+            playBtn.className = 'fas fa-play';
+        } else {
+            audio.play().catch(() => {});
+            playBtn.className = 'fas fa-pause';
+        }
+        isPlaying = !isPlaying;
+    };
+    audio.volume = 0.2;
+
+    // ==================== ЗАПУСК ====================
+    initDB().then(async () => {
+        renderProducts();
+        initCategories();
+        renderNews();
+        sections.shop.style.display = "block";
+        let savedUser = localStorage.getItem("darkdonate_current_user");
+        if (savedUser) {
+            let user = getUserLocal(savedUser);
+            if (user) { currentUser = user; updateUserUI(); }
+        }
+    });
+
+    window.addEventListener("beforeunload", () => {
+        if (currentUser) localStorage.setItem("darkdonate_current_user", currentUser.nickname);
+        else localStorage.removeItem("darkdonate_current_user");
+    });
+</script>
+
+<style>
+    @keyframes fadeOut {
+        0% { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(-20px); }
+    }
+    .logout-btn {
+        background: linear-gradient(135deg, #aa4444, #882222) !important;
+    }
+    .bank-badge {
+        background: rgba(255,217,102,0.2);
+        border-radius: 20px;
+        padding: 8px;
+        font-size: 11px;
+        color: #ffd966;
+        margin-top: 10px;
+        text-align: center;
+    }
+    .admin-filter {
+        padding: 14px;
+        border-radius: 60px;
+        background: rgba(0,0,0,0.5);
+        border: 1px solid #8a5cff;
+        color: white;
+        cursor: pointer;
+    }
+</style>
+</body>
+</html>
