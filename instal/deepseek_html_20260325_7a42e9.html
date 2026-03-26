@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>DarkDonate | Премиум донат магазин</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Анимированный фон */
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(125deg, #0a0a2a, #1a1a3a, #0f0f2a, #2a1a4a, #1a0a2a);
+            background-size: 400% 400%;
+            animation: gradientFlow 15s ease infinite;
+            z-index: -2;
+        }
+
+        /* Звезды */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.3); }
+        }
+
+        /* Падающие частицы */
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .particle {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: linear-gradient(135deg, #c8a2ff, #8a5cff);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: fall 8s linear infinite;
+        }
+
+        /* Световой луч */
+        @keyframes lightBeam {
+            0% { transform: translateX(-100%) skewX(-15deg); }
+            100% { transform: translateX(200%) skewX(-15deg); }
+        }
+
+        .light-beam {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(138, 92, 255, 0.1), transparent);
+            pointer-events: none;
+            z-index: 0;
+            animation: lightBeam 12s linear infinite;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Музыкальный плеер */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            border: 1px solid rgba(138, 92, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .music-player:hover {
+            transform: scale(1.05);
+            border-color: #c8a2ff;
+            box-shadow: 0 0 20px rgba(138, 92, 255, 0.5);
+        }
+
+        .music-player i {
+            font-size: 20px;
+            color: #c8a2ff;
+        }
+
+        /* Шапка */
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 20px;
+            animation: slideDown 0.8s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo h1 {
+            font-size: 52px;
+            background: linear-gradient(135deg, #c8a2ff, #8a5cff, #ff66aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(138, 92, 255, 0.3); }
+            to { text-shadow: 0 0 40px rgba(138, 92, 255, 0.8); }
+        }
+
+        .logo p {
+            color: #b0a0e0;
+            font-size: 14px;
+        }
+
+        /* Навигация */
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: rgba(138, 92, 255, 0.15);
+            border: 1px solid rgba(138, 92, 255, 0.5);
+            padding: 12px 28px;
+            border-radius: 50px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .nav-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #8a5cff, #5a2cd8);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(138, 92, 255, 0.4);
+        }
+
+        .nav-btn i {
+            margin-right: 8px;
+        }
+
+        /* Категории */
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            background: rgba(20, 15, 50, 0.8);
+            border: 1px solid rgba(138, 92, 255, 0.5);
+            padding: 10px 25px;
+            border-radius: 50px;
+            color: #c8b0f0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cat-btn.active, .cat-btn:hover {
+            background: linear-gradient(135deg, #8a5cff, #5a2cd8);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(138, 92, 255, 0.4);
+        }
+
+        /* Товары */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .product-card {
+            background: rgba(8, 6, 25, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 28px;
+            transition: all 0.4s;
+            border: 1px solid rgba(138, 92, 255, 0.3);
+            animation: fadeInUp 0.6s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(138, 92, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .product-card:hover::before {
+            left: 100%;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: #c8a2ff;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .product-icon {
+            font-size: 56px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .product-card:hover .product-icon {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 0 15px rgba(200, 162, 255, 0.8));
+        }
+
+        .product-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .product-card:hover .product-title {
+            background: linear-gradient(135deg, #fff, #c8a2ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .product-desc {
+            color: #b0a0d0;
+            font-size: 13px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .product-price {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffdd88, #ffaa44);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .free-badge {
+            background: linear-gradient(135deg, #44ff88, #2a9a4a);
+            padding: 6px 16px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: 600;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 5px #44ff88; }
+            50% { box-shadow: 0 0 20px #44ff88; }
+        }
+
+        .buy-btn {
+            background: linear-gradient(135deg, #8a5cff, #5a2cd8);
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 50px;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .buy-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .buy-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .buy-btn:hover {
+            transform: scale(0.98);
+            box-shadow: 0 5px 25px rgba(138, 92, 255, 0.6);
+        }
+
+        /* Секции */
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Контентные блоки */
+        .content-box {
+            background: rgba(5, 4, 18, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 32px;
+            padding: 40px;
+            border: 1px solid rgba(138, 92, 255, 0.4);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .content-box h2 {
+            margin-bottom: 20px;
+            color: #c8a2ff;
+            font-size: 32px;
+        }
+
+        .content-box h3 {
+            margin: 25px 0 15px;
+            color: #ffaa44;
+        }
+
+        .content-box ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .content-box li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        /* Поддержка */
+        .support-channels {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .support-card {
+            background: linear-gradient(135deg, rgba(138, 92, 255, 0.2), rgba(90, 44, 216, 0.2));
+            padding: 25px;
+            border-radius: 25px;
+            flex: 1;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .support-card:hover {
+            transform: translateY(-5px);
+            background: rgba(138, 92, 255, 0.3);
+            box-shadow: 0 10px 25px rgba(138, 92, 255, 0.3);
+        }
+
+        .support-card i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+        }
+
+        .support-card:hover i {
+            transform: scale(1.1);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            background: rgba(138, 92, 255, 0.2);
+            padding: 12px 25px;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+
+        .social-link a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: #8a5cff;
+            transform: translateY(-2px);
+        }
+
+        /* Админ панель */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-table th {
+            background: rgba(138, 92, 255, 0.3);
+        }
+
+        .complete-btn {
+            background: #2a6a2a;
+            border: none;
+            padding: 6px 15px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .complete-btn:hover {
+            background: #3a8a3a;
+            transform: scale(1.05);
+        }
+
+        .status-pending { color: #ffaa44; }
+        .status-completed { color: #44ff88; }
+
+        /* Модальные окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: modalFade 0.3s ease;
+        }
+
+        @keyframes modalFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0f0b2a, #06041a);
+            max-width: 500px;
+            width: 90%;
+            border-radius: 40px;
+            padding: 35px;
+            border: 2px solid #c8a2ff;
+            text-align: center;
+            animation: modalPop 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 14px;
+            margin: 15px 0;
+            border-radius: 50px;
+            border: 1px solid #8a5cff;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 16px;
+        }
+
+        .modal-content input:focus {
+            outline: none;
+            border-color: #c8a2ff;
+            box-shadow: 0 0 15px rgba(138, 92, 255, 0.5);
+        }
+
+        .verification-code {
+            font-size: 48px;
+            letter-spacing: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-weight: bold;
+            color: #c8a2ff;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0 30px;
+            border-top: 1px solid rgba(138, 92, 255, 0.3);
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .logo h1 { font-size: 36px; }
+            .nav-btn { padding: 8px 20px; font-size: 14px; }
+            .product-title { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="light-beam"></div>
+
+<div class="music-player" id="musicPlayer">
+    <i class="fas fa-music"></i>
+    <span>🎵 Epic Fantasy</span>
+    <i class="fas fa-play" id="playPauseBtn"></i>
+</div>
+<audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <h1><i class="fas fa-skull"></i> DarkDonate</h1>
+            <p>⭐ Премиум донат магазин сервера DarkYo ⭐</p>
+        </div>
+    </div>
+
+    <div class="nav">
+        <button class="nav-btn" onclick="showSection('shop')"><i class="fas fa-store"></i> Магазин</button>
+        <button class="nav-btn" onclick="showSection('rules')"><i class="fas fa-gavel"></i> Правила</button>
+        <button class="nav-btn" onclick="showSection('support')"><i class="fas fa-headset"></i> Поддержка</button>
+        <button class="nav-btn" onclick="showSection('admin')"><i class="fas fa-user-shield"></i> Админ-панель</button>
+    </div>
+
+    <!-- Магазин -->
+    <div id="shop-section" class="section active">
+        <div class="categories">
+            <button class="cat-btn active" onclick="filterProducts('all')">✨ Все товары</button>
+            <button class="cat-btn" onclick="filterProducts('kits')">⚔️ Киты</button>
+            <button class="cat-btn" onclick="filterProducts('prefixes')">👑 Префиксы</button>
+        </div>
+        <div class="products-grid" id="products-grid"></div>
+    </div>
+
+    <!-- Правила -->
+    <div id="rules-section" class="section">
+        <div class="content-box">
+            <h2><i class="fas fa-gavel"></i> Правила сервера DarkYo</h2>
+            <div style="background: rgba(138,92,255,0.2); padding: 20px; border-radius: 20px; margin-bottom: 25px;">
+                <i class="fas fa-exclamation-triangle"></i> <strong>Важно:</strong> Играя на сервере, вы автоматически соглашаетесь со всеми правилами
+            </div>
+            <h3>📢 1. Общение и уважение</h3>
+            <ul><li>❌ Запрещены оскорбления игроков и администрации</li><li>❌ Запрещён спам, флуд, капс, реклама</li><li>❌ Запрещена токсичность и провокации</li></ul>
+            <h3>⚔️ 2. Игровой процесс</h3>
+            <ul><li>❌ Запрещены читы, макросы, X-Ray, автокликеры</li><li>❌ Запрещено гриферство и воровство на приватах</li><li>⚔️ PvP только в разрешённых зонах</li></ul>
+            <h3>💰 3. Донат</h3>
+            <ul><li>💎 Донат — добровольное пожертвование</li><li>⚠️ Привилегии не возвращаются при блокировке</li><li>🔄 Обмен донат-предметов только через администрацию</li></ul>
+            <h3>👑 4. Администрация</h3>
+            <ul><li>📜 Решение администрации окончательное</li><li>🚫 Запрещено выдавать себя за администратора</li></ul>
+        </div>
+    </div>
+
+    <!-- Поддержка -->
+    <div id="support-section" class="section">
+        <div class="content-box">
+            <h2><i class="fas fa-headset"></i> Служба поддержки 24/7</h2>
+            <div class="support-channels">
+                <div class="support-card" onclick="copyToClipboard('@DarkYo_offical')">
+                    <i class="fab fa-telegram"></i>
+                    <h3>Telegram</h3>
+                    <p>@DarkYo_offical</p>
+                    <p>📞 +375336426214</p>
+                    <small>⏱️ Ответ 5-30 мин</small>
+                </div>
+                <div class="support-card" onclick="copyToClipboard('geminioffical')">
+                    <i class="fab fa-discord"></i>
+                    <h3>Discord</h3>
+                    <p>geminioffical</p>
+                    <p>🎮 Сервер DarkYo</p>
+                    <small>⏱️ Ответ 5-30 мин</small>
+                </div>
+                <div class="support-card" onclick="copyToClipboard('+375336426214')">
+                    <i class="fab fa-viber"></i>
+                    <h3>Viber</h3>
+                    <p>+375336426214</p>
+                    <p>📱 Круглосуточно</p>
+                    <small>⏱️ Быстрый ответ</small>
+                </div>
+            </div>
+            <div class="social-links">
+                <div class="social-link"><a href="https://www.youtube.com/@Minecraft-stories0" target="_blank"><i class="fab fa-youtube"></i> YouTube</a></div>
+                <div class="social-link"><a href="https://www.tiktok.com/@iwantsaveaworld" target="_blank"><i class="fab fa-tiktok"></i> TikTok 1</a></div>
+                <div class="social-link"><a href="https://www.tiktok.com/@dani4ka55055" target="_blank"><i class="fab fa-tiktok"></i> TikTok 2</a></div>
+            </div>
+            <h3 style="margin-top: 35px;">❓ Часто задаваемые вопросы</h3>
+            <ul>
+                <li><strong>⏱️ Как долго ждать выдачу?</strong> — До 5 минут после подтверждения платежа</li>
+                <li><strong>📞 Что делать, если товар не пришёл?</strong> — Свяжитесь в Telegram, Discord или Viber</li>
+                <li><strong>🎁 Как получить бесплатный кит?</strong> — Нажмите "Получить" на ките Старт и введите ник</li>
+                <li><strong>🔑 Где взять пароль от админ-панели?</strong> — Только у владельца сервера</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Админ панель -->
+    <div id="admin-section" class="section">
+        <div class="content-box">
+            <h2><i class="fas fa-user-shield"></i> Админ-панель</h2>
+            <div id="admin-login">
+                <input type="password" id="admin-pass" placeholder="Введите пароль" style="width: 250px;">
+                <button onclick="checkAdminPass()" class="buy-btn" style="width: auto; padding: 12px 30px; margin-top: 10px;">🔓 Войти</button>
+            </div>
+            <div id="admin-panel" style="display: none;">
+                <h3>📋 Заказы на выдачу</h3>
+                <div id="orders-list"></div>
+                <button onclick="logoutAdmin()" class="buy-btn" style="width: auto; margin-top: 20px; background: #442266;">🚪 Выйти</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>© 2025 DarkDonate — Премиум донат магазин сервера DarkYo</p>
+    <p><i class="fab fa-telegram"></i> @DarkYo_offical | <i class="fab fa-discord"></i> geminioffical | <i class="fab fa-viber"></i> +375336426214</p>
+</div>
+
+<!-- Модальные окна -->
+<div id="nicknameModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-gift" style="font-size: 64px; color: #44ff88;"></i>
+        <h3 id="free-kit-name">Кит Старт</h3>
+        <p>Введите ваш игровой никнейм</p>
+        <input type="text" id="free-nick" placeholder="Ваш никнейм">
+        <button onclick="confirmFreeKit()" style="background: #44ff88; color: #000; padding: 12px 30px; border-radius: 50px; border: none; cursor: pointer;">🎁 Получить</button>
+        <button onclick="closeModal('nicknameModal')" style="background: #666; padding: 12px 30px; border-radius: 50px; border: none; cursor: pointer; margin-left: 10px;">❌ Отмена</button>
+    </div>
+</div>
+
+<div id="paymentModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-credit-card" style="font-size: 64px;"></i>
+        <h3 id="pay-product-name"></h3>
+        <p id="pay-product-price" style="font-size: 28px; margin: 10px 0;"></p>
+        <input type="text" id="pay-nick" placeholder="👤 Ваш игровой никнейм">
+        <input type="text" id="pay-card" placeholder="💳 Номер карты">
+        <button onclick="processPayment()" style="background: #8a5cff; padding: 12px 30px; border-radius: 50px; border: none; cursor: pointer;">💎 Оплатить</button>
+        <button onclick="closeModal('paymentModal')" style="background: #666; padding: 12px 30px; border-radius: 50px; border: none; cursor: pointer; margin-left: 10px;">❌ Отмена</button>
+    </div>
+</div>
+
+<div id="verifyModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-shield-alt" style="font-size: 56px;"></i>
+        <h3>🔐 Подтверждение платежа</h3>
+        <p>Введите код из SMS:</p>
+        <div class="verification-code" id="verify-code">000000</div>
+        <input type="text" id="verify-input" placeholder="Введите код">
+        <button onclick="verifyPayment()" style="background: #8a5cff; padding: 12px 30px; border-radius: 50px; border: none; cursor: pointer;">✅ Подтвердить</button>
+        <button onclick="closeModal('verifyModal')" style="background: #666; padding: 12px 30px; border-radius: 50px; border: none; cursor: pointer; margin-left: 10px;">❌ Отмена</button>
+    </div>
+</div>
+
+<div id="resultModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-check-circle" style="font-size: 72px; color: #44ff88;"></i>
+        <h2 id="result-title">Успешно!</h2>
+        <p id="result-text"></p>
+        <div id="result-details" style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 20px; margin: 20px 0; text-align: left;"></div>
+        <button onclick="closeModal('resultModal')" style="background: #8a5cff; padding: 12px 30px; border-radius: 50px; border: none; cursor: pointer;">✨ Закрыть</button>
+    </div>
+</div>
+
+<script>
+    // Товары с цветными названиями
+    const products = [
+        { id: 1, name: "🌈 Кит Старт", desc: "Бесплатный стартовый набор: каменные инструменты, еда, базовая броня.", price: 0, icon: "fas fa-seedling", category: "kits", free: true, color: "#aaffaa" },
+        { id: 2, name: "⚡ Кит Plus", desc: "Полуалмазная броня, меч острота I, 12 золотых яблок, элитры.", price: 9, icon: "fas fa-plus-circle", category: "kits", color: "#cccccc" },
+        { id: 3, name: "💎 Кит Редкий", desc: "Алмазная броня, меч острота II, 6 золотых яблок, 24 алмаза, тотем.", price: 19, icon: "fas fa-gem", category: "kits", color: "#55aaff" },
+        { id: 4, name: "⭐ Кит Епик", desc: "Полунезерит, меч острота III, зачарованное яблоко, 12 золотых яблок.", price: 29, icon: "fas fa-star", category: "kits", color: "#aa55ff" },
+        { id: 5, name: "🐉 Кит Мифик", desc: "Незерит, меч+копье острота III, 2 зачарованных яблока.", price: 37, icon: "fas fa-dragon", category: "kits", color: "#ff55dd" },
+        { id: 6, name: "👑 Кит Легендарный", desc: "Фулл незерит, меч острота IV, 6 зачарованных яблок, лук.", price: 39, icon: "fas fa-crown", category: "kits", color: "#ffaa44" },
+        { id: 7, name: "🔥 Кит Супер Легендарный", desc: "Максимальная мощь! Улучшенные характеристики.", price: 49, icon: "fas fa-fire", category: "kits", color: "#ff6644" },
+        { id: 8, name: "♔ Кит Лорда", desc: "Власть повелителя. Незерит максимальный.", price: 59, icon: "fas fa-chess-king", category: "kits", color: "#ff4444" },
+        { id: 9, name: "⚡ Кит Бога", desc: "Божественный набор. Всё лучшее.", price: 99, icon: "fas fa-bolt", category: "kits", color: "#ffff44" },
+        { id: 10, name: "🏷️ Префикс Плюс", desc: "Эксклюзивный префикс Plus в чате.", price: 19, icon: "fas fa-plus-square", category: "prefixes", color: "#cccccc" },
+        { id: 11, name: "💎 Префикс Алмаз", desc: "Эксклюзивный префикс Алмаз в чате.", price: 39, icon: "fas fa-gem", category: "prefixes", color: "#55aaff" },
+        { id: 12, name: "🐉 Префикс Дракон", desc: "Эксклюзивный префикс Дракон в чате.", price: 59, icon: "fas fa-dragon", category: "prefixes", color: "#ff55dd" },
+        { id: 13, name: "⭐ Префикс Звезда", desc: "Эксклюзивный префикс Звезда в чате.", price: 99, icon: "fas fa-star", category: "prefixes", color: "#ffff44" },
+        { id: 14, name: "👑 Префикс Лорд", desc: "Эксклюзивный префикс Лорд в чате.", price: 129, icon: "fas fa-crown", category: "prefixes", color: "#ffaa44" },
+        { id: 15, name: "⚡ Префикс Бог", desc: "Эксклюзивный префикс Бог в чате.", price: 149, icon: "fas fa-bolt", category: "prefixes", color: "#aaffaa" },
+        { id: 16, name: "💀 Префикс Темный Лорд", desc: "Самый редкий эксклюзивный префикс!", price: 199, icon: "fas fa-skull", category: "prefixes", color: "#ff4444" }
+    ];
+
+    let orders = JSON.parse(localStorage.getItem('darkdonate_orders') || '[]');
+    let currentProduct = null;
+    let pendingOrderId = null;
+    let pendingCode = null;
+    let pendingFreeProduct = null;
+    let currentFilter = 'all';
+
+    function saveOrders() { localStorage.setItem('darkdonate_orders', JSON.stringify(orders)); }
+
+    function renderProducts() {
+        let filtered = currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter);
+        const grid = document.getElementById('products-grid');
+        grid.innerHTML = filtered.map(p => `
+            <div class="product-card">
+                <div class="product-icon"><i class="${p.icon}" style="color: ${p.color || '#c8a2ff'}"></i></div>
+                <div class="product-title" style="color: ${p.color || '#fff'}">${p.name}</div>
+                <div class="product-desc">${p.desc}</div>
+                ${p.free ? '<div class="free-badge">🎁 БЕСПЛАТНО</div>' : `<div class="product-price">₽ ${p.price}</div>`}
+                <button class="buy-btn" onclick="${p.free ? `openFreeKit(${p.id})` : `openPayment(${p.id})`}">
+                    <i class="fas fa-${p.free ? 'gift' : 'shopping-cart'}"></i> ${p.free ? 'Получить бесплатно' : 'Купить'}
+                </button>
+            </div>
+        `).join('');
+    }
+
+    function filterProducts(cat) {
+        currentFilter = cat;
+        document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        renderProducts();
+    }
+
+    function openFreeKit(id) {
+        pendingFreeProduct = products.find(p => p.id === id);
+        document.getElementById('free-kit-name').innerHTML = `<span style="color: ${pendingFreeProduct.color}">${pendingFreeProduct.name}</span>`;
+        document.getElementById('nicknameModal').style.display = 'flex';
+    }
+
+    function confirmFreeKit() {
+        let nick = document.getElementById('free-nick').value.trim();
+        if (!nick) { alert('❌ Введите никнейм!'); return; }
+        closeModal('nicknameModal');
+        showResult('🎁 Кит получен!', 'Поздравляем! Ваш набор уже ждёт вас.', 
+            `<strong>${pendingFreeProduct.name}</strong><br>👤 Игрок: ${nick}<br>✅ Статус: Выдан автоматически<br><br>✨ Кит появится в инвентаре при входе на сервер`);
+        pendingFreeProduct = null;
+        document.getElementById('free-nick').value = '';
+    }
+
+    function openPayment(id) {
+        currentProduct = products.find(p => p.id === id);
+        document.getElementById('pay-product-name').innerHTML = `<span style="color: ${currentProduct.color}">${currentProduct.name}</span>`;
+        document.getElementById('pay-product-price').innerHTML = `💰 Цена: ${currentProduct.price} ₽`;
+        document.getElementById('paymentModal').style.display = 'flex';
+    }
+
+    function processPayment() {
+        let nick = document.getElementById('pay-nick').value.trim();
+        let card = document.getElementById('pay-card').value.trim();
+        if (!nick) { alert('❌ Введите никнейм!'); return; }
+        if (!card) { alert('❌ Введите номер карты!'); return; }
+        
+        const order = {
+            id: Date.now(),
+            product: currentProduct.name,
+            price: currentProduct.price,
+            player: nick,
+            date: new Date().toLocaleString(),
+            status: 'pending'
+        };
+        orders.push(order);
+        saveOrders();
+        pendingOrderId = order.id;
+        
+        closeModal('paymentModal');
+        pendingCode = Math.floor(100000 + Math.random() * 900000).toString();
+        document.getElementById('verify-code').innerText = pendingCode;
+        document.getElementById('verifyModal').style.display = 'flex';
+        
+        document.getElementById('pay-nick').value = '';
+        document.getElementById('pay-card').value = '';
+    }
+
+    function verifyPayment() {
+        let input = document.getElementById('verify-input').value;
+        if (input === pendingCode) {
+            closeModal('verifyModal');
+            const order = orders.find(o => o.id === pendingOrderId);
+            if (order) {
+                showResult('✅ Оплата успешна!', 'Ваш заказ принят. Администратор выдаст товар в течение 5 минут.', 
+                    `📦 Заказ #${order.id}<br>🎁 Товар: ${order.product}<br>💰 Сумма: ${order.price}₽<br>👤 Игрок: ${order.player}<br>⏳ Статус: Ожидает выдачи`);
+                if (document.getElementById('admin-panel').style.display === 'block') {
+                    renderAdminOrders();
+                }
+            }
+            pendingOrderId = null;
+        } else {
+            alert('❌ Неверный код подтверждения!');
+        }
+        document.getElementById('verify-input').value = '';
+    }
+
+    function showResult(title, message, details) {
+        document.getElementById('result-title').innerHTML = title;
+        document.getElementById('result-text').innerHTML = message;
+        document.getElementById('result-details').innerHTML = details;
+        document.getElementById('resultModal').style.display = 'flex';
+    }
+
+    function renderAdminOrders() {
+        const container = document.getElementById('orders-list');
+        const pendingOrders = orders.filter(o => o.status === 'pending');
+        if (pendingOrders.length === 0) {
+            container.innerHTML = '<p style="text-align: center; padding: 40px;">✨ Нет новых заказов ✨</p>';
+            return;
+        }
+        container.innerHTML = `
+            <table class="admin-table">
+                <thead><tr><th>ID</th><th>📅 Дата</th><th>🎁 Товар</th><th>💰 Цена</th><th>👤 Игрок</th><th>📊 Статус</th><th>⚡ Действие</th></thead>
+                <tbody>
+                    ${pendingOrders.map(o => `
+                        <tr>
+                            <td>#${o.id}</td>
+                            <td>${o.date}</td>
+                            <td>${o.product}</td>
+                            <td>${o.price}₽</td>
+                            <td>${o.player}</td>
+                            <td class="status-pending">⏳ Ожидает</td>
+                            <td><button class="complete-btn" onclick="completeOrder(${o.id})">🎁 Выдать товар</button></td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
+
+    function completeOrder(id) {
+        const order = orders.find(o => o.id === id);
+        if (order) {
+            order.status = 'completed';
+            saveOrders();
+            renderAdminOrders();
+            showResult('✅ Товар выдан!', `Товар успешно выдан игроку ${order.player}`, 
+                `🎁 ${order.product}<br>👤 Игрок: ${order.player}<br>✅ Статус: Выдан<br><br>✨ Игрок может забрать товар на сервере`);
+        }
+    }
+
+    function checkAdminPass() {
+        let pass = document.getElementById('admin-pass').value;
+        if (pass === 'darkyosigma') {
+            document.getElementById('admin-login').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'block';
+            renderAdminOrders();
+        } else {
+            alert('❌ Неверный пароль!');
+        }
+    }
+
+    function logoutAdmin() {
+        document.getElementById('admin-login').style.display = 'block';
+        document.getElementById('admin-panel').style.display = 'none';
+        document.getElementById('admin-pass').value = '';
+    }
+
+    function showSection(section) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(`${section}-section`).classList.add('active');
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text);
+        alert(`📋 Скопировано: ${text}`);
+    }
+
+    window.onclick = function(e) {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+        }
+    }
+
+    // Создание звезд и частиц
+    for(let i = 0; i < 200; i++) {
+        let s = document.createElement('div');
+        s.className = 'star';
+        s.style.width = Math.random() * 3 + 1 + 'px';
+        s.style.height = s.style.width;
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.animationDelay = Math.random() * 3 + 's';
+        s.style.animationDuration = Math.random() * 2 + 1 + 's';
+        document.getElementById('stars').appendChild(s);
+    }
+    
+    for(let i = 0; i < 100; i++) {
+        let p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDelay = Math.random() * 8 + 's';
+        p.style.width = Math.random() * 3 + 1 + 'px';
+        p.style.height = p.style.width;
+        document.body.appendChild(p);
+    }
+
+    // Музыка
+    const audio = document.getElementById('bgMusic');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    let isPlaying = false;
+    document.getElementById('musicPlayer').onclick = () => {
+        if(isPlaying) {
+            audio.pause();
+            playPauseBtn.className = 'fas fa-play';
+        } else {
+            audio.play().catch(() => {});
+            playPauseBtn.className = 'fas fa-pause';
+        }
+        isPlaying = !isPlaying;
+    };
+    audio.volume = 0.2;
+
+    renderProducts();
+</script>
+</body>
+</html>

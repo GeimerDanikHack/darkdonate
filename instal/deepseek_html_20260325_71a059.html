@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>DarkDonate | Премиум донат магазин</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 3D Фон с параллаксом */
+        @keyframes gradient3D {
+            0% { background-position: 0% 0%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, #1a0a2a, #0a0a2a, #050510);
+            background-size: 400% 400%;
+            animation: gradient3D 20s ease infinite;
+            z-index: -3;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="g"><stop offset="0%" stop-color="%238a5cff" stop-opacity="0.1"/><stop offset="100%" stop-color="%238a5cff" stop-opacity="0"/></radialGradient></defs><circle cx="500" cy="500" r="400" fill="url(%23g)"/><circle cx="200" cy="300" r="150" fill="url(%23g)"/><circle cx="800" cy="700" r="200" fill="url(%23g)"/></svg>');
+            background-repeat: no-repeat;
+            background-size: cover;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: -2;
+            animation: floatBg 30s linear infinite;
+        }
+
+        @keyframes floatBg {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-50px, -50px) rotate(5deg); }
+        }
+
+        /* 3D Звезды */
+        .stars-3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star-3d {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle3d 3s infinite alternate;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        @keyframes twinkle3d {
+            0% { opacity: 0.1; transform: scale(1) translateZ(0); }
+            100% { opacity: 1; transform: scale(1.5) translateZ(50px); }
+        }
+
+        /* Анимированные линии */
+        .grid-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(138,92,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(138,92,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -1;
+            animation: moveGrid 20s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Лазерные лучи */
+        .laser {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #8a5cff, #c8a2ff, #8a5cff, transparent);
+            animation: laserMove 8s linear infinite;
+            filter: blur(2px);
+            z-index: 0;
+        }
+
+        @keyframes laserMove {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Магические сферы */
+        .magic-orb {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(138,92,255,0.2), transparent);
+            filter: blur(40px);
+            animation: orbFloat 15s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            50% { transform: translate(100px, 50px) scale(1.2); opacity: 0.5; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 3D Музыкальный плеер */
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 15px 25px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            border: 1px solid rgba(138, 92, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .music-player:hover {
+            transform: scale(1.1) translateY(-5px);
+            border-color: #c8a2ff;
+            box-shadow: 0 10px 30px rgba(138, 92, 255, 0.5);
+        }
+
+        .music-wave {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+        }
+
+        .music-wave span {
+            width: 3px;
+            height: 15px;
+            background: #c8a2ff;
+            animation: wave 0.8s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { height: 5px; }
+            50% { height: 20px; }
+        }
+
+        /* Шапка с 3D эффектом */
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            margin-bottom: 20px;
+            animation: slideDown3D 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes slideDown3D {
+            from { opacity: 0; transform: translateY(-100px) rotateX(-30deg); }
+            to { opacity: 1; transform: translateY(0) rotateX(0); }
+        }
+
+        .logo h1 {
+            font-size: 64px;
+            background: linear-gradient(135deg, #c8a2ff, #8a5cff, #ff66aa, #ffaa44);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            animation: logoGlow3D 3s ease-in-out infinite alternate;
+            text-shadow: 0 0 30px rgba(138,92,255,0.5);
+        }
+
+        @keyframes logoGlow3D {
+            0% { filter: drop-shadow(0 0 10px rgba(138,92,255,0.3)); transform: scale(1); }
+            100% { filter: drop-shadow(0 0 40px rgba(138,92,255,0.8)); transform: scale(1.02); }
+        }
+
+        /* 3D Навигация */
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            perspective: 1000px;
+        }
+
+        .nav-btn {
+            background: rgba(138, 92, 255, 0.15);
+            border: 1px solid rgba(138, 92, 255, 0.5);
+            padding: 14px 32px;
+            border-radius: 60px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-5px) rotateX(10deg);
+            background: linear-gradient(135deg, #8a5cff, #5a2cd8);
+            box-shadow: 0 15px 30px rgba(138, 92, 255, 0.4);
+        }
+
+        /* Категории с эффектом стекла */
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            background: rgba(20, 15, 50, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(138, 92, 255, 0.4);
+            padding: 12px 28px;
+            border-radius: 50px;
+            color: #c8b0f0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .cat-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #c8a2ff, #8a5cff);
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+
+        .cat-btn.active::after, .cat-btn:hover::after {
+            width: 70%;
+        }
+
+        .cat-btn.active, .cat-btn:hover {
+            background: linear-gradient(135deg, #8a5cff, #5a2cd8);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* 3D Карточки товаров */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 35px;
+            margin: 50px 0;
+            perspective: 1000px;
+        }
+
+        .product-card {
+            background: rgba(8, 6, 25, 0.6);
+            backdrop-filter: blur(15px);
+            border-radius: 32px;
+            padding: 30px;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 1px solid rgba(138, 92, 255, 0.3);
+            animation: cardFloat 0.8s ease-out;
+            position: relative;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        @keyframes cardFloat {
+            from { opacity: 0; transform: translateY(100px) rotateX(-20deg); }
+            to { opacity: 1; transform: translateY(0) rotateX(0); }
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            border-color: #c8a2ff;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(138, 92, 255, 0.3);
+        }
+
+        .product-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            transition: all 0.4s;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px rgba(138,92,255,0.5));
+        }
+
+        .product-card:hover .product-icon {
+            transform: scale(1.2) rotate(10deg);
+            filter: drop-shadow(0 0 20px rgba(200,162,255,0.8));
+        }
+
+        .product-title {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+
+        .product-card:hover .product-title {
+            background: linear-gradient(135deg, #fff, #c8a2ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Секции */
+        .section {
+            display: none;
+            animation: sectionEnter 0.6s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes sectionEnter {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Контент блоки с эффектом */
+        .content-box {
+            background: rgba(5, 4, 18, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 45px;
+            border: 1px solid rgba(138, 92, 255, 0.4);
+            animation: fadeInScale 0.8s ease;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Поддержка с эффектом */
+        .support-channels {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 35px 0;
+        }
+
+        .support-card {
+            background: linear-gradient(135deg, rgba(138, 92, 255, 0.2), rgba(90, 44, 216, 0.2));
+            padding: 30px;
+            border-radius: 30px;
+            flex: 1;
+            text-align: center;
+            transition: all 0.4s;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .support-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(138, 92, 255, 0.3);
+            border-color: #c8a2ff;
+            box-shadow: 0 20px 40px rgba(138, 92, 255, 0.3);
+        }
+
+        .support-card i {
+            font-size: 56px;
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+        }
+
+        .support-card:hover i {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Админ таблица */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .admin-table th {
+            background: rgba(138, 92, 255, 0.3);
+            font-weight: 600;
+        }
+
+        /* Модалки с 3D эффектом */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(30px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: modalEnter 0.4s ease;
+        }
+
+        @keyframes modalEnter {
+            from { opacity: 0; backdrop-filter: blur(0); }
+            to { opacity: 1; backdrop-filter: blur(30px); }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #120e2a, #08061a);
+            max-width: 550px;
+            width: 90%;
+            border-radius: 50px;
+            padding: 40px;
+            border: 2px solid #c8a2ff;
+            text-align: center;
+            animation: modalPop3D 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+            transform-style: preserve-3d;
+        }
+
+        @keyframes modalPop3D {
+            from { opacity: 0; transform: scale(0.5) rotateX(-30deg); }
+            to { opacity: 1; transform: scale(1) rotateX(0); }
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 60px;
+            border: 1px solid #8a5cff;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .modal-content input:focus {
+            outline: none;
+            border-color: #c8a2ff;
+            box-shadow: 0 0 20px rgba(138, 92, 255, 0.5);
+            transform: scale(1.02);
+        }
+
+        .verification-code {
+            font-size: 56px;
+            letter-spacing: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 25px;
+            border-radius: 30px;
+            margin: 25px 0;
+            font-family: monospace;
+            font-weight: bold;
+            color: #c8a2ff;
+            text-shadow: 0 0 10px #8a5cff;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 50px 0 40px;
+            border-top: 1px solid rgba(138, 92, 255, 0.3);
+            margin-top: 60px;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .logo h1 { font-size: 42px; }
+            .nav-btn { padding: 10px 20px; font-size: 14px; }
+            .product-title { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 3D Элементы -->
+<div class="stars-3d" id="stars3d"></div>
+<div class="grid-lines"></div>
+<div class="laser"></div>
+<div class="magic-orb" style="top: 10%; left: -5%;"></div>
+<div class="magic-orb" style="bottom: 10%; right: -5%; animation-delay: -5s;"></div>
+<div class="magic-orb" style="top: 50%; left: 50%; width: 500px; height: 500px; animation-duration: 20s;"></div>
+
+<div class="music-player" id="musicPlayer">
+    <i class="fas fa-music" style="font-size: 24px;"></i>
+    <div class="music-wave">
+        <span style="animation-delay: 0s"></span>
+        <span style="animation-delay: 0.2s"></span>
+        <span style="animation-delay: 0.4s"></span>
+        <span style="animation-delay: 0.6s"></span>
+        <span style="animation-delay: 0.8s"></span>
+    </div>
+    <span style="font-weight: 500;">Epic Fantasy</span>
+    <i class="fas fa-play" id="playPauseBtn" style="font-size: 18px;"></i>
+</div>
+<audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <h1><i class="fas fa-skull"></i> DARKDONATE</h1>
+            <p>⚡ ПРЕМИУМ ДОНАТ МАГАЗИН СЕРВЕРА DARKYO ⚡</p>
+            <p style="font-size: 12px; margin-top: 10px; opacity: 0.7;">🎮 Лучшие киты | 👑 Эксклюзивные префиксы | 💎 Мгновенная выдача</p>
+        </div>
+    </div>
+
+    <div class="nav">
+        <button class="nav-btn" onclick="showSection('shop')"><i class="fas fa-store"></i> 🛒 МАГАЗИН</button>
+        <button class="nav-btn" onclick="showSection('rules')"><i class="fas fa-gavel"></i> 📜 ПРАВИЛА</button>
+        <button class="nav-btn" onclick="showSection('support')"><i class="fas fa-headset"></i> 🎧 ПОДДЕРЖКА</button>
+        <button class="nav-btn" onclick="showSection('admin')"><i class="fas fa-user-shield"></i> 👑 АДМИН-ПАНЕЛЬ</button>
+    </div>
+
+    <!-- Магазин -->
+    <div id="shop-section" class="section active">
+        <div class="categories">
+            <button class="cat-btn active" onclick="filterProducts('all')">✨ ВСЕ ТОВАРЫ</button>
+            <button class="cat-btn" onclick="filterProducts('kits')">⚔️ КИТЫ</button>
+            <button class="cat-btn" onclick="filterProducts('prefixes')">👑 ПРЕФИКСЫ</button>
+        </div>
+        <div class="products-grid" id="products-grid"></div>
+    </div>
+
+    <!-- Правила -->
+    <div id="rules-section" class="section">
+        <div class="content-box">
+            <h2 style="font-size: 36px;"><i class="fas fa-gavel"></i> ПРАВИЛА СЕРВЕРА DARKYO</h2>
+            <div style="background: linear-gradient(135deg, rgba(138,92,255,0.3), rgba(90,44,216,0.3)); padding: 25px; border-radius: 25px; margin: 25px 0;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 24px;"></i> 
+                <strong style="font-size: 18px;">ВАЖНО:</strong> Играя на сервере, вы автоматически соглашаетесь со всеми правилами
+            </div>
+            <h3>📢 1. ОБЩЕНИЕ И УВАЖЕНИЕ</h3>
+            <ul><li>❌ Запрещены оскорбления игроков и администрации</li><li>❌ Запрещён спам, флуд, капс, реклама других проектов</li><li>❌ Запрещена токсичность, провокации и разжигание конфликтов</li></ul>
+            <h3>⚔️ 2. ИГРОВОЙ ПРОЦЕСС</h3>
+            <ul><li>❌ Запрещены читы, макросы, X-Ray, автокликеры, любые моды дающие преимущество</li><li>❌ Запрещены любые виды гриферства и воровства на приваченных территориях</li><li>⚔️ PvP разрешён только в определённых зонах или по согласию сторон</li><li>⚠️ Запрещено использование багов и ошибок сервера</li></ul>
+            <h3>💰 3. ДОНАТ</h3>
+            <ul><li>💎 Донат — добровольное пожертвование, возврат средств только в исключительных случаях</li><li>⚠️ Приобретённые предметы и привилегии не возвращаются при блокировке</li><li>🔄 Запрещён обмен донат-предметами на игровые ценности без участия администрации</li></ul>
+            <h3>👑 4. АДМИНИСТРАЦИЯ</h3>
+            <ul><li>📜 Решение администрации является окончательным и обжалованию не подлежит</li><li>🚫 Запрещено выдавать себя за администратора, вводить игроков в заблуждение</li></ul>
+        </div>
+    </div>
+
+    <!-- Поддержка -->
+    <div id="support-section" class="section">
+        <div class="content-box">
+            <h2 style="font-size: 36px;"><i class="fas fa-headset"></i> СЛУЖБА ПОДДЕРЖКИ 24/7</h2>
+            <p style="margin-bottom: 20px;">🌟 Мы всегда онлайн! Ответим на любой вопрос в течение 5-30 минут 🌟</p>
+            <div class="support-channels">
+                <div class="support-card" onclick="copyToClipboard('@DarkYo_offical')">
+                    <i class="fab fa-telegram"></i>
+                    <h3>TELEGRAM</h3>
+                    <p style="font-size: 18px; font-weight: bold;">@DarkYo_offical</p>
+                    <p>📞 +375336426214</p>
+                    <p style="font-size: 12px;">⚡ Быстрый ответ</p>
+                </div>
+                <div class="support-card" onclick="copyToClipboard('geminioffical')">
+                    <i class="fab fa-discord"></i>
+                    <h3>DISCORD</h3>
+                    <p style="font-size: 18px; font-weight: bold;">geminioffical</p>
+                    <p>🎮 Сервер DarkYo</p>
+                    <p style="font-size: 12px;">🎧 Голосовые каналы</p>
+                </div>
+                <div class="support-card" onclick="copyToClipboard('+375336426214')">
+                    <i class="fab fa-viber"></i>
+                    <h3>VIBER</h3>
+                    <p style="font-size: 18px; font-weight: bold;">+375336426214</p>
+                    <p>📱 Мгновенные сообщения</p>
+                    <p style="font-size: 12px;">💬 Круглосуточно</p>
+                </div>
+            </div>
+            <div class="social-links" style="display: flex; gap: 20px; justify-content: center; margin-top: 30px; flex-wrap: wrap;">
+                <div class="support-card" style="padding: 15px 25px;" onclick="window.open('https://www.youtube.com/@Minecraft-stories0', '_blank')">
+                    <i class="fab fa-youtube"></i> YouTube
+                </div>
+                <div class="support-card" style="padding: 15px 25px;" onclick="window.open('https://www.tiktok.com/@iwantsaveaworld', '_blank')">
+                    <i class="fab fa-tiktok"></i> TikTok 1
+                </div>
+                <div class="support-card" style="padding: 15px 25px;" onclick="window.open('https://www.tiktok.com/@dani4ka55055', '_blank')">
+                    <i class="fab fa-tiktok"></i> TikTok 2
+                </div>
+            </div>
+            <h3 style="margin-top: 40px;">❓ ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</h3>
+            <ul>
+                <li><strong>⏱️ Как долго ждать выдачу?</strong> — До 5 минут после подтверждения платежа</li>
+                <li><strong>📞 Что делать, если товар не пришёл?</strong> — Свяжитесь в Telegram, Discord или Viber</li>
+                <li><strong>🎁 Как получить бесплатный кит?</strong> — Нажмите "Получить" на ките Старт и введите ник</li>
+                <li><strong>🔑 Где взять пароль от админ-панели?</strong> — Только у владельца сервера</li>
+                <li><strong>💳 Какие способы оплаты?</strong> — Банковские карты, Беларусь Банк, ЮMoney</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Админ панель -->
+    <div id="admin-section" class="section">
+        <div class="content-box">
+            <h2 style="font-size: 36px;"><i class="fas fa-user-shield"></i> АДМИН-ПАНЕЛЬ</h2>
+            <div id="admin-login" style="text-align: center;">
+                <input type="password" id="admin-pass" placeholder="🔑 ВВЕДИТЕ ПАРОЛЬ" style="width: 280px; text-align: center;">
+                <br>
+                <button onclick="checkAdminPass()" class="buy-btn" style="width: auto; padding: 12px 40px; margin-top: 15px;">🔓 ВОЙТИ</button>
+            </div>
+            <div id="admin-panel" style="display: none;">
+                <h3>📋 ЗАКАЗЫ НА ВЫДАЧУ</h3>
+                <div id="orders-list"></div>
+                <button onclick="logoutAdmin()" class="buy-btn" style="width: auto; margin-top: 25px; background: #442266;">🚪 ВЫЙТИ ИЗ АДМИН-ПАНЕЛИ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>© 2025 DARKDONATE — ПРЕМИУМ ДОНАТ МАГАЗИН СЕРВЕРА DARKYO</p>
+    <p style="margin-top: 12px;">
+        <i class="fab fa-telegram"></i> @DarkYo_offical | 
+        <i class="fab fa-discord"></i> geminioffical | 
+        <i class="fab fa-viber"></i> +375336426214
+    </p>
+    <p style="margin-top: 10px; font-size: 12px; opacity: 0.6;">✨ Лучшие киты | 👑 Эксклюзивные префиксы | 💎 Мгновенная выдача ✨</p>
+</div>
+
+<!-- Модальные окна -->
+<div id="nicknameModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-gift" style="font-size: 72px; color: #44ff88; animation: pulse 1s infinite;"></i>
+        <h3 id="free-kit-name" style="font-size: 28px;">Кит Старт</h3>
+        <p>🎁 Введите ваш игровой никнейм для получения бесплатного набора</p>
+        <input type="text" id="free-nick" placeholder="👤 ВАШ НИКНЕЙМ">
+        <button onclick="confirmFreeKit()" style="background: linear-gradient(135deg, #44ff88, #2a9a4a); padding: 14px 35px; border-radius: 50px; border: none; color: #000; font-weight: bold; cursor: pointer; font-size: 16px;">🎁 ПОЛУЧИТЬ КИТ</button>
+        <button onclick="closeModal('nicknameModal')" style="background: #666; padding: 14px 35px; border-radius: 50px; border: none; color: white; cursor: pointer; margin-left: 10px;">❌ ОТМЕНА</button>
+    </div>
+</div>
+
+<div id="paymentModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-credit-card" style="font-size: 72px;"></i>
+        <h3 id="pay-product-name" style="font-size: 28px;"></h3>
+        <p id="pay-product-price" style="font-size: 32px; margin: 15px 0;"></p>
+        <input type="text" id="pay-nick" placeholder="👤 ВАШ ИГРОВОЙ НИКНЕЙМ">
+        <input type="text" id="pay-card" placeholder="💳 НОМЕР КАРТЫ / СЧЕТА">
+        <button onclick="processPayment()" style="background: linear-gradient(135deg, #8a5cff, #5a2cd8); padding: 14px 35px; border-radius: 50px; border: none; color: white; font-weight: bold; cursor: pointer; font-size: 16px;">💎 ОПЛАТИТЬ</button>
+        <button onclick="closeModal('paymentModal')" style="background: #666; padding: 14px 35px; border-radius: 50px; border: none; color: white; cursor: pointer; margin-left: 10px;">❌ ОТМЕНА</button>
+    </div>
+</div>
+
+<div id="verifyModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-shield-alt" style="font-size: 64px;"></i>
+        <h3>🔐 ПОДТВЕРЖДЕНИЕ ПЛАТЕЖА</h3>
+        <p>Введите код подтверждения из SMS:</p>
+        <div class="verification-code" id="verify-code">000000</div>
+        <input type="text" id="verify-input" placeholder="ВВЕДИТЕ КОД">
+        <button onclick="verifyPayment()" style="background: linear-gradient(135deg, #44ff88, #2a9a4a); padding: 14px 35px; border-radius: 50px; border: none; color: #000; font-weight: bold; cursor: pointer;">✅ ПОДТВЕРДИТЬ</button>
+        <button onclick="closeModal('verifyModal')" style="background: #666; padding: 14px 35px; border-radius: 50px; border: none; color: white; cursor: pointer; margin-left: 10px;">❌ ОТМЕНА</button>
+    </div>
+</div>
+
+<div id="resultModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-check-circle" style="font-size: 80px; color: #44ff88;"></i>
+        <h2 id="result-title" style="font-size: 32px;">Успешно!</h2>
+        <p id="result-text" style="margin: 15px 0;"></p>
+        <div id="result-details" style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 25px; margin: 20px 0; text-align: left;"></div>
+        <button onclick="closeModal('resultModal')" style="background: linear-gradient(135deg, #8a5cff, #5a2cd8); padding: 14px 40px; border-radius: 50px; border: none; color: white; font-weight: bold; cursor: pointer;">✨ ЗАКРЫТЬ</button>
+    </div>
+</div>
+
+<script>
+    // Товары с цветными названиями и улучшенными описаниями
+    const products = [
+        { id: 1, name: "🌈 КИТ СТАРТ", desc: "🎁 Бесплатный стартовый набор: каменные инструменты, еда, базовая броня. Для новых игроков!", price: 0, icon: "fas fa-seedling", category: "kits", free: true, color: "#aaffaa", badge: "БЕСПЛАТНО" },
+        { id: 2, name: "⚡ КИТ PLUS", desc: "🛡️ Полуалмазная броня (защита I) | ⚔️ Меч острота I | 🍎 12 золотых яблок | 🦅 Элитры", price: 9, icon: "fas fa-plus-circle", category: "kits", color: "#cccccc" },
+        { id: 3, name: "💎 КИТ РЕДКИЙ", desc: "💎 Алмазная броня (защита II) | ⚔️ Меч острота II | 🍎 6 золотых яблок | 💎 24 алмаза | 🧿 Тотем бессмертия", price: 19, icon: "fas fa-gem", category: "kits", color: "#55aaff" },
+        { id: 4, name: "⭐ КИТ ЕПИК", desc: "🔥 Полунезеритовая броня (защита III) | ⚔️ Меч острота III | 🍎 Зачарованное яблоко | 🍎 12 золотых яблок", price: 29, icon: "fas fa-star", category: "kits", color: "#aa55ff" },
+        { id: 5, name: "🐉 КИТ МИФИК", desc: "👑 Незеритовая броня (защита III) | ⚔️ Меч + Копье острота III | 🍎 2 зачарованных яблока | 🧪 Донатное зелье", price: 37, icon: "fas fa-dragon", category: "kits", color: "#ff55dd" },
+        { id: 6, name: "👑 КИТ ЛЕГЕНДАРНЫЙ", desc: "⚜️ Фулл незерит (защита IV) | ⚔️ Меч острота IV | 🍎 6 зачарованных яблок | 🏹 Лук сила II", price: 39, icon: "fas fa-crown", category: "kits", color: "#ffaa44" },
+        { id: 7, name: "🔥 КИТ СУПЕР ЛЕГЕНДАРНЫЙ", desc: "💪 Максимальная мощь! Улучшенные характеристики, лучшие зачарования, топовые предметы.", price: 49, icon: "fas fa-fire", category: "kits", color: "#ff6644" },
+        { id: 8, name: "♔ КИТ ЛОРДА", desc: "👑 Власть повелителя. Незерит максимальной прокачки, легендарные артефакты, сила богов.", price: 59, icon: "fas fa-chess-king", category: "kits", color: "#ff4444" },
+        { id: 9, name: "⚡ КИТ БОГА", desc: "🌟 Божественный набор. Всё лучшее, что только можно получить. Абсолютное могущество!", price: 99, icon: "fas fa-bolt", category: "kits", color: "#ffff44" },
+        { id: 10, name: "🏷️ ПРЕФИКС ПЛЮС", desc: "✨ Эксклюзивный префикс Plus в чате. Выделитесь среди других игроков!", price: 19, icon: "fas fa-plus-square", category: "prefixes", color: "#cccccc" },
+        { id: 11, name: "💎 ПРЕФИКС АЛМАЗ", desc: "✨ Эксклюзивный префикс Алмаз в чате. Статус и уважение!", price: 39, icon: "fas fa-gem", category: "prefixes", color: "#55aaff" },
+        { id: 12, name: "🐉 ПРЕФИКС ДРАКОН", desc: "✨ Эксклюзивный префикс Дракон в чате. Сила и мощь в каждом слове!", price: 59, icon: "fas fa-dragon", category: "prefixes", color: "#ff55dd" },
+        { id: 13, name: "⭐ ПРЕФИКС ЗВЕЗДА", desc: "✨ Эксклюзивный префикс Звезда в чате. Сияйте ярче всех!", price: 99, icon: "fas fa-star", category: "prefixes", color: "#ffff44" },
+        { id: 14, name: "👑 ПРЕФИКС ЛОРД", desc: "✨ Эксклюзивный префикс Лорд в чате. Благородство и власть!", price: 129, icon: "fas fa-crown", category: "prefixes", color: "#ffaa44" },
+        { id: 15, name: "⚡ ПРЕФИКС БОГ", desc: "✨ Эксклюзивный префикс Бог в чате. Божественный статус!", price: 149, icon: "fas fa-bolt", category: "prefixes", color: "#aaffaa" },
+        { id: 16, name: "💀 ПРЕФИКС ТЕМНЫЙ ЛОРД", desc: "✨ САМЫЙ РЕДКИЙ эксклюзивный префикс! Тьма и величие. Только для избранных!", price: 199, icon: "fas fa-skull", category: "prefixes", color: "#ff4444" }
+    ];
+
+    let orders = JSON.parse(localStorage.getItem('darkdonate_orders') || '[]');
+    let currentProduct = null;
+    let pendingOrderId = null;
+    let pendingCode = null;
+    let pendingFreeProduct = null;
+    let currentFilter = 'all';
+
+    function saveOrders() { localStorage.setItem('darkdonate_orders', JSON.stringify(orders)); }
+
+    function renderProducts() {
+        let filtered = currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter);
+        const grid = document.getElementById('products-grid');
+        grid.innerHTML = filtered.map(p => `
+            <div class="product-card">
+                <div class="product-icon"><i class="${p.icon}" style="color: ${p.color || '#c8a2ff'}"></i></div>
+                <div class="product-title" style="color: ${p.color || '#fff'}">${p.name}</div>
+                <div class="product-desc">${p.desc}</div>
+                ${p.free ? '<div class="free-badge">🎁 БЕСПЛАТНО 🎁</div>' : `<div class="product-price">💰 ${p.price} ₽</div>`}
+                <button class="buy-btn" onclick="${p.free ? `openFreeKit(${p.id})` : `openPayment(${p.id})`}">
+                    <i class="fas fa-${p.free ? 'gift' : 'shopping-cart'}"></i> ${p.free ? 'ПОЛУЧИТЬ БЕСПЛАТНО' : 'КУПИТЬ СЕЙЧАС'}
+                </button>
+            </div>
+        `).join('');
+    }
+
+    function filterProducts(cat) {
+        currentFilter = cat;
+        document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        renderProducts();
+    }
+
+    function openFreeKit(id) {
+        pendingFreeProduct = products.find(p => p.id === id);
+        document.getElementById('free-kit-name').innerHTML = `<span style="color: ${pendingFreeProduct.color}">${pendingFreeProduct.name}</span>`;
+        document.getElementById('nicknameModal').style.display = 'flex';
+    }
+
+    function confirmFreeKit() {
+        let nick = document.getElementById('free-nick').value.trim();
+        if (!nick) { alert('❌ Введите никнейм!'); return; }
+        closeModal('nicknameModal');
+        showResult('🎁 КИТ ПОЛУЧЕН!', 'Поздравляем! Ваш набор уже ждёт вас на сервере.', 
+            `<strong>${pendingFreeProduct.name}</strong><br>👤 Игрок: ${nick}<br>✅ Статус: Выдан автоматически<br><br>✨ Кит появится в инвентаре при следующем входе`);
+        pendingFreeProduct = null;
+        document.getElementById('free-nick').value = '';
+    }
+
+    function openPayment(id) {
+        currentProduct = products.find(p => p.id === id);
+        document.getElementById('pay-product-name').innerHTML = `<span style="color: ${currentProduct.color}">${currentProduct.name}</span>`;
+        document.getElementById('pay-product-price').innerHTML = `💰 ЦЕНА: ${currentProduct.price} ₽`;
+        document.getElementById('paymentModal').style.display = 'flex';
+    }
+
+    function processPayment() {
+        let nick = document.getElementById('pay-nick').value.trim();
+        let card = document.getElementById('pay-card').value.trim();
+        if (!nick) { alert('❌ Введите никнейм!'); return; }
+        if (!card) { alert('❌ Введите номер карты!'); return; }
+        
+        const order = {
+            id: Date.now(),
+            product: currentProduct.name,
+            price: currentProduct.price,
+            player: nick,
+            date: new Date().toLocaleString(),
+            status: 'pending'
+        };
+        orders.push(order);
+        saveOrders();
+        pendingOrderId = order.id;
+        
+        closeModal('paymentModal');
+        pendingCode = Math.floor(100000 + Math.random() * 900000).toString();
+        document.getElementById('verify-code').innerText = pendingCode;
+        document.getElementById('verifyModal').style.display = 'flex';
+        
+        document.getElementById('pay-nick').value = '';
+        document.getElementById('pay-card').value = '';
+    }
+
+    function verifyPayment() {
+        let input = document.getElementById('verify-input').value;
+        if (input === pendingCode) {
+            closeModal('verifyModal');
+            const order = orders.find(o => o.id === pendingOrderId);
+            if (order) {
+                showResult('✅ ОПЛАТА УСПЕШНА!', 'Ваш заказ принят. Администратор выдаст товар в течение 5 минут.', 
+                    `📦 ЗАКАЗ #${order.id}<br>🎁 Товар: ${order.product}<br>💰 Сумма: ${order.price}₽<br>👤 Игрок: ${order.player}<br>⏳ Статус: Ожидает выдачи`);
+                if (document.getElementById('admin-panel').style.display === 'block') {
+                    renderAdminOrders();
+                }
+            }
+            pendingOrderId = null;
+        } else {
+            alert('❌ Неверный код подтверждения!');
+        }
+        document.getElementById('verify-input').value = '';
+    }
+
+    function showResult(title, message, details) {
+        document.getElementById('result-title').innerHTML = title;
+        document.getElementById('result-text').innerHTML = message;
+        document.getElementById('result-details').innerHTML = details;
+        document.getElementById('resultModal').style.display = 'flex';
+    }
+
+    function renderAdminOrders() {
+        const container = document.getElementById('orders-list');
+        const pendingOrders = orders.filter(o => o.status === 'pending');
+        if (pendingOrders.length === 0) {
+            container.innerHTML = '<p style="text-align: center; padding: 50px;">✨ НЕТ НОВЫХ ЗАКАЗОВ ✨</p>';
+            return;
+        }
+        container.innerHTML = `
+            <table class="admin-table">
+                <thead><tr><th>ID</th><th>📅 ДАТА</th><th>🎁 ТОВАР</th><th>💰 ЦЕНА</th><th>👤 ИГРОК</th><th>📊 СТАТУС</th><th>⚡ ДЕЙСТВИЕ</th></tr></thead>
+                <tbody>
+                    ${pendingOrders.map(o => `
+                        <tr>
+                            <td>#${o.id}</td>
+                            <td>${o.date}</td>
+                            <td>${o.product}</td>
+                            <td>${o.price}₽</td>
+                            <td>${o.player}</td>
+                            <td class="status-pending">⏳ ОЖИДАЕТ</td>
+                            <td><button class="complete-btn" onclick="completeOrder(${o.id})">🎁 ВЫДАТЬ ТОВАР</button></td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
+
+    function completeOrder(id) {
+        const order = orders.find(o => o.id === id);
+        if (order) {
+            order.status = 'completed';
+            saveOrders();
+            renderAdminOrders();
+            showResult('✅ ТОВАР ВЫДАН!', `Товар успешно выдан игроку ${order.player}`, 
+                `🎁 ${order.product}<br>👤 Игрок: ${order.player}<br>✅ Статус: ВЫДАН<br><br>✨ Игрок может забрать товар на сервере`);
+        }
+    }
+
+    function checkAdminPass() {
+        let pass = document.getElementById('admin-pass').value;
+        if (pass === 'darkyosigma') {
+            document.getElementById('admin-login').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'block';
+            renderAdminOrders();
+        } else {
+            alert('❌ НЕВЕРНЫЙ ПАРОЛЬ!');
+        }
+    }
+
+    function logoutAdmin() {
+        document.getElementById('admin-login').style.display = 'block';
+        document.getElementById('admin-panel').style.display = 'none';
+        document.getElementById('admin-pass').value = '';
+    }
+
+    function showSection(section) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(`${section}-section`).classList.add('active');
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text);
+        alert(`📋 СКОПИРОВАНО: ${text}`);
+    }
+
+    window.onclick = function(e) {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+        }
+    }
+
+    // Создание 3D звезд
+    for(let i = 0; i < 300; i++) {
+        let s = document.createElement('div');
+        s.className = 'star-3d';
+        s.style.width = Math.random() * 4 + 1 + 'px';
+        s.style.height = s.style.width;
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.animationDelay = Math.random() * 5 + 's';
+        s.style.animationDuration = Math.random() * 3 + 2 + 's';
+        document.getElementById('stars3d').appendChild(s);
+    }
+
+    // Музыка с волнами
+    const audio = document.getElementById('bgMusic');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    let isPlaying = false;
+    document.getElementById('musicPlayer').onclick = () => {
+        if(isPlaying) {
+            audio.pause();
+            playPauseBtn.className = 'fas fa-play';
+        } else {
+            audio.play().catch(() => {});
+            playPauseBtn.className = 'fas fa-pause';
+        }
+        isPlaying = !isPlaying;
+    };
+    audio.volume = 0.2;
+
+    renderProducts();
+</script>
+</body>
+</html>

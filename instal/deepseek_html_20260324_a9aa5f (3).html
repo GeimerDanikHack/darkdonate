@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>DarkDonate | Донат магазин</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #02020a;
+            font-family: 'Inter', 'Minecraft', 'Segoe UI', sans-serif;
+            color: #e8e4ff;
+            line-height: 1.5;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(2px 2px at 15px 25px, #fff, rgba(0,0,0,0)), radial-gradient(1px 1px at 45px 65px, #fff, rgba(0,0,0,0)), radial-gradient(1.5px 1.5px at 85px 115px, #fff, rgba(0,0,0,0)), radial-gradient(2px 2px at 155px 195px, #fff, rgba(0,0,0,0)), radial-gradient(1px 1px at 245px 345px, #fff, rgba(0,0,0,0)), radial-gradient(2px 2px at 405px 75px, #fff, rgba(0,0,0,0)), radial-gradient(1px 1px at 495px 445px, #fff, rgba(0,0,0,0)), radial-gradient(1px 1px at 695px 145px, #fff, rgba(0,0,0,0)), radial-gradient(2px 2px at 895px 295px, #fff, rgba(0,0,0,0)), radial-gradient(1px 1px at 1095px 495px, #fff, rgba(0,0,0,0));
+            background-size: 250px 250px;
+            background-repeat: repeat;
+            pointer-events: none;
+            z-index: 0;
+            animation: starTwinkle 3s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 40% 60%, rgba(80, 40, 160, 0.4), #010108 90%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(0px) translateX(0px); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-120px) translateX(30px); opacity: 0; }
+        }
+
+        .floating-particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: linear-gradient(135deg, #c8a2ff, #8a5cff);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatParticle 10s linear infinite;
+            filter: blur(1px);
+        }
+
+        @keyframes lightBeam {
+            0% { transform: translateX(-100%) skewX(-15deg); }
+            100% { transform: translateX(200%) skewX(-15deg); }
+        }
+
+        .light-beam {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(138, 92, 255, 0.05), transparent);
+            pointer-events: none;
+            z-index: 0;
+            animation: lightBeam 8s linear infinite;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(150, 100, 255, 0.4);
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            backdrop-filter: blur(12px);
+            background: rgba(3, 3, 15, 0.85);
+            border-radius: 0 0 30px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.6s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .logo h1 {
+            font-size: 32px;
+            background: linear-gradient(135deg, #c8a2ff, #8a5cff, #5a2cd8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            animation: logoGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            0% { filter: drop-shadow(0 0 0px rgba(138, 92, 255, 0)); }
+            100% { filter: drop-shadow(0 0 15px rgba(138, 92, 255, 0.8)); }
+        }
+
+        .nav a {
+            color: #d0bcff;
+            text-decoration: none;
+            margin-left: 28px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #c8a2ff, #8a5cff);
+            transition: width 0.3s ease;
+        }
+
+        .nav a:hover::after { width: 100%; }
+        .nav a:hover { color: #f0dcff; transform: translateY(-2px); }
+
+        .admin-badge {
+            background: linear-gradient(135deg, #ff4444, #aa2222);
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 15px;
+            animation: badgePulse 1s infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7); }
+            50% { box-shadow: 0 0 0 5px rgba(255, 68, 68, 0); }
+        }
+
+        .categories {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cat-btn {
+            background: rgba(20, 15, 50, 0.9);
+            border: 1px solid rgba(138, 92, 255, 0.5);
+            padding: 10px 24px;
+            border-radius: 50px;
+            color: #c8b0f0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cat-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(138, 92, 255, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .cat-btn:hover::before {
+            width: 200px;
+            height: 200px;
+        }
+
+        .cat-btn.active, .cat-btn:hover {
+            background: linear-gradient(135deg, #8a5cff, #5a2cd8);
+            color: white;
+            box-shadow: 0 0 25px rgba(138, 92, 255, 0.6);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .news-section {
+            margin-bottom: 40px;
+        }
+
+        .news-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .news-header h2 {
+            font-size: 28px;
+            background: linear-gradient(135deg, #c8a2ff, #8a5cff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .news-add-btn {
+            background: linear-gradient(135deg, #3a8a3a, #2a6a2a);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .news-add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(58, 138, 58, 0.4);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .news-card {
+            background: rgba(10, 8, 30, 0.9);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid rgba(138, 92, 255, 0.4);
+            transition: all 0.3s ease;
+            animation: cardAppear 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(138, 92, 255, 0.8);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .news-date {
+            font-size: 12px;
+            color: #8a7ab0;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .news-date i {
+            font-size: 12px;
+        }
+
+        .news-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #c8a2ff;
+        }
+
+        .news-content {
+            color: #b0a0d0;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .news-badge {
+            display: inline-block;
+            background: rgba(138, 92, 255, 0.3);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            color: #c8a2ff;
+        }
+
+        .news-delete {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 68, 68, 0.2);
+            border: none;
+            color: #ff6666;
+            cursor: pointer;
+            padding: 5px 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+            font-size: 12px;
+        }
+
+        .news-delete:hover {
+            background: rgba(255, 68, 68, 0.5);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .no-news {
+            text-align: center;
+            padding: 60px;
+            color: #8a7ab0;
+            font-size: 16px;
+        }
+
+        .news-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(20px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .news-modal-content {
+            background: linear-gradient(135deg, #0c0825, #040310);
+            max-width: 550px;
+            width: 90%;
+            border-radius: 40px;
+            padding: 35px;
+            border: 1px solid rgba(200, 162, 255, 0.6);
+        }
+
+        .news-modal-content h3 {
+            margin-bottom: 20px;
+            color: #c8a2ff;
+        }
+
+        .news-modal-content input,
+        .news-modal-content textarea {
+            width: 100%;
+            padding: 12px 18px;
+            background: rgba(20, 15, 45, 0.9);
+            border: 1px solid rgba(138, 92, 255, 0.5);
+            border-radius: 20px;
+            color: white;
+            margin-bottom: 15px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .news-modal-content textarea {
+            min-height: 100px;
+        }
+
+        .news-modal-content input:focus,
+        .news-modal-content textarea:focus {
+            outline: none;
+            border-color: #c8a2ff;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .product-card {
+            background: rgba(8, 6, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 28px 24px 24px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(138, 92, 255, 0.3);
+            cursor: pointer;
+            animation: cardAppear 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes cardAppear {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(138, 92, 255, 0.15), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .product-card:hover::before { left: 100%; }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(138, 92, 255, 0.8);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(138, 92, 255, 0.3);
+        }
+
+        .product-icon {
+            font-size: 56px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            color: #c8a2ff;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-card:hover .product-icon {
+            transform: scale(1.08);
+            filter: drop-shadow(0 0 12px rgba(200, 162, 255, 0.8));
+            color: #e8c4ff;
+        }
+
+        .product-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+
+        .product-card:hover .product-title {
+            background: linear-gradient(135deg, #fff, #c8a2ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .product-desc {
+            color: #b0a0d0;
+            font-size: 12px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            max-height: 160px;
+            overflow-y: auto;
+        }
+
+        .product-price {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffc266, #ffaa44);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .free-badge {
+            background: linear-gradient(135deg, #3a8a3a, #2a6a2a);
+            color: white;
+            font-size: 14px;
+            padding: 6px 16px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .case-badge {
+            background: linear-gradient(135deg, #ff6600, #ff3300);
+            color: white;
+            font-size: 14px;
+            padding: 6px 16px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 16px;
+            font-weight: 600;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; transform: scale(0.98); }
+        }
+
+        .case-items {
+            background: rgba(0,0,0,0.5);
+            border-radius: 16px;
+            padding: 12px;
+            margin: 12px 0;
+            font-size: 11px;
+            color: #c8a2ff;
+        }
+
+        .buy-btn {
+            background: linear-gradient(135deg, #8a5cff, #5a2cd8);
+            border: none;
+            width: 100%;
+            padding: 14px 0;
+            font-weight: 700;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .buy-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .buy-btn:hover::after { width: 300px; height: 300px; }
+        .buy-btn:hover { transform: scale(0.98); box-shadow: 0 5px 25px rgba(138, 92, 255, 0.6); }
+
+        .admin-login {
+            text-align: center;
+            padding: 50px;
+        }
+        .admin-login input {
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(138, 92, 255, 0.5);
+            background: rgba(20, 15, 45, 0.9);
+            color: white;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .admin-login button, .payment-btn {
+            background: linear-gradient(135deg, #8a5cff, #5a2cd8);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .admin-login button:hover, .payment-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(138, 92, 255, 0.5); }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .admin-table th, .admin-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(138, 92, 255, 0.3);
+        }
+        .admin-table th { background: rgba(138, 92, 255, 0.2); color: #c8a2ff; }
+        .status-pending { color: #ffaa44; }
+        .status-completed { color: #44ff88; }
+        .complete-btn {
+            background: #2a6a2a;
+            border: none;
+            padding: 6px 15px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .complete-btn:hover { background: #3a8a3a; transform: scale(1.05); }
+
+        .rules-container, .support-container, .admin-container {
+            background: rgba(5, 4, 18, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 1px solid rgba(138, 92, 255, 0.4);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .rules-container ul, .rules-container ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .rules-container li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .rules-container h3 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #c8a2ff;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .payment-methods { display: flex; gap: 20px; margin-bottom: 25px; flex-wrap: wrap; justify-content: center; }
+        .payment-method {
+            background: rgba(30, 25, 60, 0.8);
+            border-radius: 20px;
+            padding: 15px 25px;
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        .payment-method.selected { border-color: #c8a2ff; background: rgba(138, 92, 255, 0.2); transform: scale(1.02); }
+        .payment-method i { font-size: 40px; margin-bottom: 8px; display: block; transition: transform 0.3s; }
+        .payment-method:hover i { transform: scale(1.05); }
+        .payment-input {
+            padding: 14px 18px;
+            background: rgba(20, 15, 45, 0.9);
+            border: 1px solid rgba(138, 92, 255, 0.5);
+            border-radius: 60px;
+            color: white;
+            transition: all 0.3s;
+        }
+        .payment-input:focus { outline: none; border-color: #c8a2ff; box-shadow: 0 0 12px rgba(138, 92, 255, 0.4); }
+
+        .modal, .result-modal, .nickname-modal, .case-result-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(20px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeInModal 0.3s ease;
+        }
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        .modal-content, .result-content, .nickname-content, .case-result-content {
+            background: linear-gradient(135deg, #0c0825, #040310);
+            max-width: 500px;
+            width: 90%;
+            border-radius: 40px;
+            padding: 35px;
+            border: 1px solid rgba(200, 162, 255, 0.6);
+            text-align: center;
+            animation: modalPop 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+        @keyframes modalPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .verification-code {
+            font-size: 48px;
+            font-weight: bold;
+            letter-spacing: 12px;
+            background: rgba(30, 25, 65, 0.8);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 20px 0;
+            color: #c8a2ff;
+        }
+        .case-win-item {
+            background: linear-gradient(135deg, #ffaa44, #ff8844);
+            border-radius: 20px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        .footer { text-align: center; padding: 40px 0 30px; border-top: 1px solid rgba(138, 92, 255, 0.3); margin-top: 40px; color: #8a7ab0; }
+        .support-telegram a, .support-discord a { color: #c8a2ff; text-decoration: none; transition: 0.3s; }
+        .support-telegram a:hover, .support-discord a:hover { text-shadow: 0 0 10px #c8a2ff; }
+        .support-channels {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .support-channel {
+            background: rgba(30, 25, 60, 0.6);
+            padding: 15px 25px;
+            border-radius: 20px;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+        .support-channel i {
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        @media (max-width: 768px) { .header { flex-direction: column; } .nav a { margin: 0 12px; } }
+    </style>
+</head>
+<body>
+
+<div class="light-beam"></div>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <h1><i class="fas fa-skull"></i> DarkDonate</h1>
+            <p>Официальный донат-магазин сервера DarkYo</p>
+        </div>
+        <div class="nav">
+            <a id="nav-shop"><i class="fas fa-home"></i> Главная</a>
+            <a id="nav-donate"><i class="fas fa-gem"></i> Донат</a>
+            <a id="nav-news"><i class="fas fa-newspaper"></i> Новости</a>
+            <a id="nav-rules"><i class="fas fa-gavel"></i> Правила</a>
+            <a id="nav-support"><i class="fas fa-headset"></i> Поддержка</a>
+            <a id="nav-admin"><i class="fas fa-user-shield"></i> Админ-панель <span class="admin-badge">ADMIN</span></a>
+        </div>
+    </div>
+
+    <div id="shop-section">
+        <div class="categories" id="categories-container">
+            <button class="cat-btn active" data-cat="all">Все товары</button>
+            <button class="cat-btn" data-cat="kits">⚔️ Киты</button>
+            <button class="cat-btn" data-cat="prefixes">🏷️ Префиксы</button>
+            <button class="cat-btn" data-cat="cases">🎁 Кейсы</button>
+        </div>
+        <div class="products-grid" id="products-grid"></div>
+    </div>
+
+    <div id="news-section" style="display: none;">
+        <div class="rules-container">
+            <div class="news-header">
+                <h2><i class="fas fa-newspaper"></i> Последние новости сервера</h2>
+                <button id="add-news-btn" class="news-add-btn" style="display: none;"><i class="fas fa-plus"></i> Добавить новость</button>
+            </div>
+            <div id="news-grid" class="news-grid"></div>
+        </div>
+    </div>
+
+    <div id="rules-section" style="display: none;">
+        <div class="rules-container">
+            <h2><i class="fas fa-gavel"></i> Правила сервера DarkYo</h2>
+            <div class="rules-highlight"><i class="fas fa-exclamation-triangle"></i> <strong>Важно:</strong> Играя на нашем сервере, вы автоматически соглашаетесь со всеми правилами.</div>
+            
+            <h3>1. Общение и уважение</h3>
+            <ul>
+                <li><strong>1.1.</strong> Запрещены оскорбления игроков и администрации в любом виде (чат, личные сообщения, никнеймы).</li>
+                <li><strong>1.2.</strong> Запрещён спам, флуд, капс, реклама других проектов.</li>
+                <li><strong>1.3.</strong> Запрещена токсичность, провокации и разжигание конфликтов.</li>
+            </ul>
+            
+            <h3>2. Игровой процесс</h3>
+            <ul>
+                <li><strong>2.1.</strong> Запрещены читы, макросы, моды, дающие преимущество (X-Ray, автоклик, кликеры и т.д.).</li>
+                <li><strong>2.2.</strong> Запрещены любые виды гриферства (разрушение построек, воровство) на приваченных территориях.</li>
+                <li><strong>2.3.</strong> PvP разрешён только в определённых зонах или по согласию сторон. Охота на новичков запрещена.</li>
+                <li><strong>2.4.</strong> Запрещено использование багов и ошибок сервера для получения преимущества.</li>
+            </ul>
+            
+            <h3>3. Донат</h3>
+            <ul>
+                <li><strong>3.1.</strong> Донат является добровольным пожертвованием, возврат средств возможен только в исключительных случаях.</li>
+                <li><strong>3.2.</strong> Приобретённые предметы и привилегии не возвращаются при блокировке за нарушение правил.</li>
+                <li><strong>3.3.</strong> Запрещён обмен донат-предметами на игровые ценности без участия администрации.</li>
+            </ul>
+            
+            <h3>4. Администрация</h3>
+            <ul>
+                <li><strong>4.1.</strong> Решение администрации является окончательным и обжалованию не подлежит.</li>
+                <li><strong>4.2.</strong> Выдавать себя за администратора, вводить игроков в заблуждение запрещено.</li>
+                <li><strong>4.3.</strong> Необоснованные жалобы, клевета на администрацию караются санкциями.</li>
+            </ul>
+            
+            <h3>5. Прочее</h3>
+            <ul>
+                <li><strong>5.1.</strong> Запрещено использование неподобающих ников и скинов.</li>
+                <li><strong>5.2.</strong> Запрещена продажа аккаунтов, ресурсов, валюты за реальные деньги.</li>
+                <li><strong>5.3.</strong> Администрация оставляет за собой право изменять правила без предварительного уведомления.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="support-section" style="display: none;">
+        <div class="support-container">
+            <h2><i class="fas fa-headset"></i> Служба поддержки</h2>
+            <div class="support-channels">
+                <div class="support-channel">
+                    <i class="fab fa-telegram"></i>
+                    <strong>Telegram</strong>
+                    <p><a href="https://t.me/DarkYo_offical" target="_blank">@DarkYo_offical</a></p>
+                    <p style="font-size: 12px;">Ответ в течение 5-30 минут</p>
+                </div>
+                <div class="support-channel">
+                    <i class="fab fa-discord"></i>
+                    <strong>Discord</strong>
+                    <p><a href="https://discord.gg/geminioffical" target="_blank">@geminioffical</a></p>
+                    <p style="font-size: 12px;">Ответ в течение 5-30 минут</p>
+                </div>
+            </div>
+            <h3>❓ Часто задаваемые вопросы</h3>
+            <ul>
+                <li><strong>Как долго ждать выдачу?</strong> — До 5 минут после подтверждения платежа администратором.</li>
+                <li><strong>Что делать, если товар не пришёл?</strong> — Свяжитесь в Telegram или Discord.</li>
+                <li><strong>Как открыть кейс?</strong> — Купите кейс, нажмите "Открыть кейс" и получите случайный предмет.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="admin-section" style="display: none;">
+        <div class="admin-container">
+            <h2><i class="fas fa-user-shield"></i> Админ-панель</h2>
+            <div id="admin-content"></div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>© 2025 DarkDonate — официальный донат-магазин сервера DarkYo</p>
+    <p class="support-telegram"><i class="fab fa-telegram"></i> Telegram: <a href="https://t.me/DarkYo_offical" target="_blank">@DarkYo_offical</a> | <i class="fab fa-discord"></i> Discord: <a href="https://discord.gg/geminioffical" target="_blank">@geminioffical</a></p>
+</div>
+
+<!-- Модальное окно для ввода ника бесплатного кита -->
+<div id="nicknameModal" class="nickname-modal">
+    <div class="nickname-content">
+        <i class="fas fa-gift" style="font-size: 56px; color: #44ff88;"></i>
+        <h3 id="free-kit-name">Кит Старт</h3>
+        <p>Введите ваш игровой никнейм для получения кита</p>
+        <input type="text" id="free-nick-input" class="payment-input" placeholder="Ваш игровой никнейм" style="width:100%; margin: 20px 0;">
+        <div style="display: flex; gap: 15px; justify-content: center;">
+            <button id="confirm-free-btn" class="payment-btn"><i class="fas fa-check"></i> Получить</button>
+            <button id="cancel-free-btn" class="payment-btn" style="background: #442266;"><i class="fas fa-times"></i> Отмена</button>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для оплаты кейса -->
+<div id="casePaymentModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-dice-d6" style="font-size: 56px; color: #ffaa44;"></i>
+        <h3 id="case-payment-name">Название кейса</h3>
+        <p id="case-payment-price">Цена: 0 руб</p>
+        <div class="payment-methods">
+            <div class="payment-method selected" data-method-case="card"><i class="fas fa-credit-card"></i><span>Банковская карта</span></div>
+            <div class="payment-method" data-method-case="belarusbank"><i class="fas fa-university"></i><span>Беларусь Банк</span></div>
+            <div class="payment-method" data-method-case="yoomoney"><i class="fas fa-ruble-sign"></i><span>ЮMoney</span></div>
+        </div>
+        <div class="payment-form">
+            <input type="text" id="case-card-number" class="payment-input" placeholder="Номер карты / счета" style="width:100%; margin-bottom:15px;">
+            <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                <input type="text" id="case-card-name" class="payment-input" placeholder="Имя и Фамилия" style="flex:1">
+                <input type="text" id="case-card-cvc" class="payment-input" placeholder="CVC/CVV" maxlength="4" style="flex:0.4">
+            </div>
+            <input type="text" id="case-player-nick" class="payment-input" placeholder="Ваш игровой никнейм" style="width:100%;">
+        </div>
+        <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+            <button id="pay-case-btn" class="payment-btn"><i class="fas fa-lock"></i> Оплатить и открыть</button>
+            <button id="cancel-case-payment" class="payment-btn" style="background: #442266;"><i class="fas fa-times"></i> Отмена</button>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для добавления новости -->
+<div id="addNewsModal" class="news-modal">
+    <div class="news-modal-content">
+        <i class="fas fa-newspaper" style="font-size: 48px; color: #c8a2ff;"></i>
+        <h3>Добавить новость</h3>
+        <input type="text" id="news-title" placeholder="Заголовок новости">
+        <textarea id="news-text" placeholder="Текст новости..."></textarea>
+        <div style="display: flex; gap: 15px; justify-content: center;">
+            <button id="save-news-btn" class="payment-btn"><i class="fas fa-save"></i> Сохранить</button>
+            <button id="cancel-news-btn" class="payment-btn" style="background: #442266;"><i class="fas fa-times"></i> Отмена</button>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для результата открытия кейса -->
+<div id="caseResultModal" class="case-result-modal">
+    <div class="case-result-content">
+        <i class="fas fa-gem" style="font-size: 56px; color: #ffaa44;"></i>
+        <h3 id="case-open-name">Открытие кейса</h3>
+        <div id="case-result-details" style="margin: 20px 0;"></div>
+        <button id="close-case-result" class="payment-btn"><i class="fas fa-check"></i> Закрыть</button>
+    </div>
+</div>
+
+<!-- Модальные окна оплаты для обычных товаров -->
+<div id="paymentModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-credit-card" style="font-size: 56px; color: #c8a2ff;"></i>
+        <h3 id="payment-product-name">Название товара</h3>
+        <p id="payment-product-price">Цена: 0 руб</p>
+        <div class="payment-methods">
+            <div class="payment-method selected" data-method="card"><i class="fas fa-credit-card"></i><span>Банковская карта</span></div>
+            <div class="payment-method" data-method="belarusbank"><i class="fas fa-university"></i><span>Беларусь Банк</span></div>
+            <div class="payment-method" data-method="yoomoney"><i class="fas fa-ruble-sign"></i><span>ЮMoney</span></div>
+        </div>
+        <div class="payment-form">
+            <input type="text" id="card-number" class="payment-input" placeholder="Номер карты / счета" style="width:100%; margin-bottom:15px;">
+            <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                <input type="text" id="card-name" class="payment-input" placeholder="Имя и Фамилия" style="flex:1">
+                <input type="text" id="card-cvc" class="payment-input" placeholder="CVC/CVV" maxlength="4" style="flex:0.4">
+            </div>
+            <input type="text" id="player-nick" class="payment-input" placeholder="Ваш игровой никнейм" style="width:100%;">
+        </div>
+        <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+            <button id="pay-btn" class="payment-btn"><i class="fas fa-lock"></i> Оплатить</button>
+            <button class="payment-btn close-modal" style="background: #442266;"><i class="fas fa-times"></i> Отмена</button>
+        </div>
+    </div>
+</div>
+
+<div id="verificationModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-shield-alt" style="font-size: 48px; color: #c8a2ff;"></i>
+        <h3>Подтверждение платежа</h3>
+        <p>Введите код из SMS:</p>
+        <div class="verification-code" id="verification-code">000000</div>
+        <input type="text" id="verification-input" class="payment-input" placeholder="Код подтверждения" style="text-align: center;">
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+            <button id="verify-btn" class="payment-btn">Подтвердить</button>
+            <button id="cancel-verify" class="payment-btn" style="background: #442266;">Отмена</button>
+        </div>
+    </div>
+</div>
+
+<div id="resultModal" class="result-modal">
+    <div class="result-content">
+        <i class="fas fa-check-circle" style="font-size: 64px; color: #44ff88;"></i>
+        <h2 id="result-status">Оплата успешна!</h2>
+        <p id="result-message">Ваш заказ принят. Ожидайте выдачи товара.</p>
+        <div id="result-order-details" style="background: rgba(255,255,255,0.1); border-radius: 20px; padding: 15px; margin: 20px 0; text-align: left;"></div>
+        <button id="close-result" class="payment-btn" style="background: #8a5cff;">Закрыть</button>
+    </div>
+</div>
+
+<script>
+    const products = [
+        { id: 1, name: "&aКит Старт", desc: "Бесплатный стартовый набор: каменные инструменты, хлеб, факелы, базовая броня.", price: 0, icon: "fas fa-seedling", category: "kits", free: true },
+        { id: 2, name: "&7Кит Plus", desc: "Полуалмазная броня, железный меч, щит, элитры, 12 золотых яблок.", price: 9, icon: "fas fa-plus-circle", category: "kits" },
+        { id: 3, name: "&9Кит Редкий", desc: "Алмазная броня, меч, топор, 6 золотых яблок, 24 алмаза.", price: 19, icon: "fas fa-gem", category: "kits" },
+        { id: 4, name: "&5Кит Епик", desc: "Полунезеритовая броня, меч острота III, зачарованное яблоко.", price: 29, icon: "fas fa-star", category: "kits" },
+        { id: 5, name: "&dКит Мифик", desc: "Незеритовая броня, меч и копье, 2 зачарованных яблока.", price: 37, icon: "fas fa-dragon", category: "kits" },
+        { id: 6, name: "&6Кит Легендарный", desc: "Фулл незерит, меч острота IV, 6 зачарованных яблок.", price: 39, icon: "fas fa-crown", category: "kits" },
+        { id: 7, name: "&cКит Супер Легендарный", desc: "Максимальная мощь.", price: 49, icon: "fas fa-fire", category: "kits" },
+        { id: 8, name: "&4Кит Лорда", desc: "Власть повелителя.", price: 59, icon: "fas fa-chess-king", category: "kits" },
+        { id: 9, name: "&eКит Бога", desc: "Божественный набор.", price: 99, icon: "fas fa-bolt", category: "kits" },
+        { id: 10, name: "&7Донат Плюс", desc: "Префикс Plus.", price: 19, icon: "fas fa-plus-square", category: "prefixes" },
+        { id: 11, name: "&9Донат Алмаз", desc: "Префикс Алмаз.", price: 39, icon: "fas fa-gem", category: "prefixes" },
+        { id: 12, name: "&5Донат Дракон", desc: "Префикс Дракон.", price: 59, icon: "fas fa-dragon", category: "prefixes" },
+        { id: 13, name: "&eДонат Звезда", desc: "Префикс Звезда.", price: 99, icon: "fas fa-star", category: "prefixes" },
+        { id: 14, name: "&6Донат Лорд", desc: "Префикс Лорд.", price: 129, icon: "fas fa-crown", category: "prefixes" },
+        { id: 15, name: "&aДонат Бог", desc: "Префикс Бог.", price: 149, icon: "fas fa-bolt", category: "prefixes" },
+        { id: 16, name: "&4Донат Темный Лорд", desc: "Самый редкий префикс!", price: 199, icon: "fas fa-skull", category: "prefixes" },
+        // Кейсы
+        { id: 17, name: "&7Обычный кейс", desc: "Содержит полезные ресурсы и предметы. Шанс на редкие предметы!", price: 49, icon: "fas fa-box", category: "cases", caseItems: ["20 алмазов", "Незеритовый слиток", "Зачарованное яблоко", "Редкий префикс", "Кит Старт"] },
+        { id: 18, name: "&bЭпический кейс", desc: "Повышенный шанс на легендарные предметы. Может выпасть премиум кит!", price: 99, icon: "fas fa-gem", category: "cases", caseItems: ["Кит Легендарный", "Префикс Дракон", "32 незеритовых слитка", "Элитры", "Зачарованное яблоко x3"] },
+        { id: 19, name: "&6Легендарный кейс", desc: "Самые ценные предметы. Гарантированный легендарный предмет!", price: 199, icon: "fas fa-crown", category: "cases", caseItems: ["Кит Бога", "Префикс Темный Лорд", "64 незеритовых слитка", "Кит Легендарный", "Элитры с зачарованием"] },
+        { id: 20, name: "&cПремиум кейс", desc: "Эксклюзивные предметы. Максимальный шанс на топовые награды!", price: 299, icon: "fas fa-star-of-life", category: "cases", caseItems: ["Кит Лорда", "Префикс Бог", "Кит Супер Легендарный", "Незеритовый блок x10", "Уникальный префикс"] }
+    ];
+
+    // Новости сервера
+    let news = [
+        { id: 1, title: "🎉 ОФИЦИАЛЬНОЕ ОТКРЫТИЕ СЕРВЕРА DARKYO!", content: "Дорогие друзья! Рады сообщить, что наш сервер официально открыт! 🚀 В честь открытия каждый новый игрок получает стартовый набор. Присоединяйтесь к нам, вас ждут увлекательные приключения, дружелюбное комьюнити и множество интересных ивентов! IP сервера: play.darkyo.ru", date: "2025-03-24" },
+        { id: 2, title: "✨ НОВЫЕ ДОНАТ-КЕЙСЫ УЖЕ ДОСТУПНЫ!", content: "В донат-магазине появились 4 новых кейса: Обычный, Эпический, Легендарный и Премиум! 🎁 Открывайте их и получайте уникальные предметы, редкие киты и эксклюзивные префиксы. Самый удачливый игрок получит особый приз в конце недели!", date: "2025-03-23" },
+        { id: 3, title: "⚔️ АНОНС: ПЕРВЫЙ ИВЕНТ - БИТВА КЛАНОВ!", content: "Уже в эти выходные (29-30 марта) состоится первый масштабный ивент на сервере - Битва Кланов! 🏆 Соберите свою команду, покажите силу и стратегию. Победители получат: эксклюзивные префиксы, донат-валюту и легендарные киты. Регистрация открыта в нашем Discord!", date: "2025-03-22" }
+    ];
+
+    let db = null;
+    let adminAuthenticated = false;
+    const DB_NAME = 'DarkDonateDB';
+    const DB_VERSION = 2;
+    const STORE_NAME = 'orders';
+    const NEWS_STORE = 'news';
+
+    function initDB() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(DB_NAME, DB_VERSION);
+            request.onerror = () => reject(request.error);
+            request.onsuccess = () => { db = request.result; resolve(db); };
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains(STORE_NAME)) {
+                    db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+                }
+                if (!db.objectStoreNames.contains(NEWS_STORE)) {
+                    const newsStore = db.createObjectStore(NEWS_STORE, { keyPath: 'id', autoIncrement: true });
+                    newsStore.transaction.oncomplete = () => {
+                        const store = db.transaction(NEWS_STORE, 'readwrite').objectStore(NEWS_STORE);
+                        news.forEach(n => store.add(n));
+                    };
+                }
+            };
+        });
+    }
+
+    function addOrder(order) {
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction([STORE_NAME], 'readwrite');
+            const request = tx.objectStore(STORE_NAME).add(order);
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    function getOrders() {
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction([STORE_NAME], 'readonly');
+            const request = tx.objectStore(STORE_NAME).getAll();
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    function updateOrderStatus(id, status) {
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction([STORE_NAME], 'readwrite');
+            const store = tx.objectStore(STORE_NAME);
+            store.get(id).onsuccess = (e) => {
+                const order = e.target.result;
+                if (order) { order.status = status; store.put(order).onsuccess = () => resolve(); }
+                else reject();
+            };
+        });
+    }
+
+    function getNews() {
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction([NEWS_STORE], 'readonly');
+            const request = tx.objectStore(NEWS_STORE).getAll();
+            request.onsuccess = () => resolve(request.result.sort((a,b) => b.id - a.id));
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    function addNewsItem(newsItem) {
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction([NEWS_STORE], 'readwrite');
+            const request = tx.objectStore(NEWS_STORE).add(newsItem);
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    function deleteNewsItem(id) {
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction([NEWS_STORE], 'readwrite');
+            const request = tx.objectStore(NEWS_STORE).delete(id);
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    function parseColorCodes(text) {
+        const colors = {'&0':'#000','&1':'#00A','&2':'#0A0','&3':'#0AA','&4':'#A00','&5':'#A0A','&6':'#FA0','&7':'#AAA','&8':'#555','&9':'#55F','&a':'#5F5','&b':'#5FF','&c':'#F55','&d':'#F5F','&e':'#FF5','&f':'#FFF'};
+        let result = text;
+        for (let [code, color] of Object.entries(colors)) result = result.replace(new RegExp(code, 'g'), `<span style="color: ${color};">`);
+        result += '</span>'.repeat((result.match(/<span/g)||[]).length);
+        return result;
+    }
+
+    let activeCategory = 'all', currentProduct = null, selectedMethod = 'card', pendingOrderId = null;
+    let currentCaseProduct = null, selectedCaseMethod = 'card', pendingCaseOrderId = null;
+    let pendingFreeProduct = null;
+
+    const shopSection = document.getElementById('shop-section');
+    const newsSection = document.getElementById('news-section');
+    const rulesSection = document.getElementById('rules-section');
+    const supportSection = document.getElementById('support-section');
+    const adminSection = document.getElementById('admin-section');
+    const productsGrid = document.getElementById('products-grid');
+    const newsGrid = document.getElementById('news-grid');
+    const navShop = document.getElementById('nav-shop'), navDonate = document.getElementById('nav-donate');
+    const navNews = document.getElementById('nav-news');
+    const navRules = document.getElementById('nav-rules'), navSupport = document.getElementById('nav-support'), navAdmin = document.getElementById('nav-admin');
+
+    function showShop() { shopSection.style.display = 'block'; newsSection.style.display = 'none'; rulesSection.style.display = 'none'; supportSection.style.display = 'none'; adminSection.style.display = 'none'; renderProducts(); }
+    function showNews() { shopSection.style.display = 'none'; newsSection.style.display = 'block'; rulesSection.style.display = 'none'; supportSection.style.display = 'none'; adminSection.style.display = 'none'; renderNews(); }
+    function showRules() { shopSection.style.display = 'none'; newsSection.style.display = 'none'; rulesSection.style.display = 'block'; supportSection.style.display = 'none'; adminSection.style.display = 'none'; }
+    function showSupport() { shopSection.style.display = 'none'; newsSection.style.display = 'none'; rulesSection.style.display = 'none'; supportSection.style.display = 'block'; adminSection.style.display = 'none'; }
+    
+    function showAdmin() {
+        shopSection.style.display = 'none';
+        newsSection.style.display = 'none';
+        rulesSection.style.display = 'none';
+        supportSection.style.display = 'none';
+        adminSection.style.display = 'block';
+        if (!adminAuthenticated) showAdminLogin();
+        else loadAdminOrders();
+    }
+
+    function showAdminLogin() {
+        document.getElementById('admin-content').innerHTML = `
+            <div class="admin-login">
+                <i class="fas fa-lock" style="font-size: 48px; color: #c8a2ff;"></i>
+                <h3>Вход в админ-панель</h3>
+                <input type="password" id="admin-password" placeholder="Введите пароль" style="margin-top: 20px;">
+                <button id="admin-login-btn">Войти</button>
+            </div>
+        `;
+        document.getElementById('admin-login-btn').addEventListener('click', () => {
+            const pass = document.getElementById('admin-password').value;
+            if (pass === 'darkyosigma') {
+                adminAuthenticated = true;
+                loadAdminOrders();
+                const addNewsBtn = document.getElementById('add-news-btn');
+                if (addNewsBtn) addNewsBtn.style.display = 'block';
+            } else { alert('❌ Неверный пароль!'); }
+        });
+    }
+
+    async function loadAdminOrders() {
+        const orders = await getOrders();
+        document.getElementById('admin-content').innerHTML = `
+            <p>Все заявки на покупку. Нажмите "Выдать товар" для подтверждения выдачи.</p>
+            <table class="admin-table">
+                <thead> <tr><th>ID</th><th>Дата</th><th>Тип</th><th>Товар/Кейс</th><th>Выигрыш</th><th>Цена</th><th>Игрок</th><th>Способ</th><th>Статус</th><th>Действие</th></tr> </thead>
+                <tbody id="admin-orders-tbody"></tbody>
+            </table>
+            <button id="admin-logout-btn" class="payment-btn" style="margin-top: 20px; background: #442266;"><i class="fas fa-sign-out-alt"></i> Выйти</button>
+        `;
+        const tbody = document.getElementById('admin-orders-tbody');
+        tbody.innerHTML = orders.sort((a,b) => b.id - a.id).map(order => `
+            <tr>
+                <td>${order.id}</td>
+                <td>${new Date(order.date).toLocaleString()}</td>
+                <td>${order.type || (order.productName ? 'Товар' : 'Кейс')}</td>
+                <td>${order.productName || order.caseName || '—'}</td>
+                <td>${order.wonItem || '—'}</td>
+                <td>${order.price} ₽</td>
+                <td>${order.playerNick}</td>
+                <td>${order.paymentMethod || '—'}</td>
+                <td class="${order.status === 'completed' ? 'status-completed' : 'status-pending'}">${order.status === 'completed' ? '✅ Выдан' : '⏳ Ожидает'}</td>
+                <td>${order.status === 'pending' ? `<button class="complete-btn" data-id="${order.id}">🎁 Выдать товар</button>` : '—'}</td>
+            </tr>
+        `).join('');
+        document.querySelectorAll('.complete-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const id = parseInt(btn.dataset.id);
+                await updateOrderStatus(id, 'completed');
+                loadAdminOrders();
+            });
+        });
+        document.getElementById('admin-logout-btn').addEventListener('click', () => { adminAuthenticated = false; showAdminLogin(); const addNewsBtn = document.getElementById('add-news-btn'); if (addNewsBtn) addNewsBtn.style.display = 'none'; });
+    }
+
+    async function renderNews() {
+        const newsList = await getNews();
+        if (!newsList.length) {
+            newsGrid.innerHTML = '<div class="no-news"><i class="fas fa-newspaper" style="font-size: 48px; margin-bottom: 15px; display: block;"></i>Пока нет новостей. Следите за обновлениями!</div>';
+            return;
+        }
+        newsGrid.innerHTML = newsList.map(n => `
+            <div class="news-card">
+                ${adminAuthenticated ? `<button class="news-delete" data-id="${n.id}"><i class="fas fa-trash"></i></button>` : ''}
+                <div class="news-date"><i class="far fa-calendar-alt"></i> ${n.date}</div>
+                <div class="news-title">${n.title}</div>
+                <div class="news-content">${n.content}</div>
+                <div class="news-badge"><i class="fas fa-tag"></i> Новость</div>
+            </div>
+        `).join('');
+        
+        if (adminAuthenticated) {
+            document.querySelectorAll('.news-delete').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const id = parseInt(btn.dataset.id);
+                    if (confirm('Удалить эту новость?')) {
+                        await deleteNewsItem(id);
+                        renderNews();
+                    }
+                });
+            });
+        }
+    }
+
+    function openAddNewsModal() {
+        document.getElementById('news-title').value = '';
+        document.getElementById('news-text').value = '';
+        document.getElementById('addNewsModal').style.display = 'flex';
+    }
+
+    async function saveNews() {
+        const title = document.getElementById('news-title').value.trim();
+        const content = document.getElementById('news-text').value.trim();
+        if (!title || !content) {
+            alert('❌ Заполните заголовок и текст новости!');
+            return;
+        }
+        const today = new Date().toISOString().split('T')[0];
+        await addNewsItem({ title, content, date: today });
+        document.getElementById('addNewsModal').style.display = 'none';
+        renderNews();
+    }
+
+    function showFreeKitResult(product, playerNick) {
+        document.getElementById('result-status').innerHTML = '<i class="fas fa-gift"></i> Кит получен!';
+        document.getElementById('result-message').innerHTML = 'Поздравляем! Ваш стартовый набор уже ждёт вас.';
+        document.getElementById('result-order-details').innerHTML = `
+            <strong>🎁 Бесплатный кит</strong><br>
+            Товар: ${product.name.replace(/&[0-9a-z]/g, '')}<br>
+            Игрок: ${playerNick}<br>
+            Статус: <span style="color:#44ff88">✅ Выдан автоматически</span><br><br>
+            <i class="fas fa-info-circle"></i> Кит появится в инвентаре при входе на сервер.
+        `;
+        document.getElementById('resultModal').style.display = 'flex';
+    }
+
+    function openNicknameModal(product) {
+        pendingFreeProduct = product;
+        document.getElementById('free-kit-name').innerHTML = parseColorCodes(product.name);
+        document.getElementById('free-nick-input').value = '';
+        document.getElementById('nicknameModal').style.display = 'flex';
+    }
+
+    function closeNicknameModal() {
+        document.getElementById('nicknameModal').style.display = 'none';
+        pendingFreeProduct = null;
+    }
+
+    function confirmFreeKit() {
+        const nick = document.getElementById('free-nick-input').value.trim();
+        if (!nick) {
+            alert('❌ Пожалуйста, введите ваш никнейм!');
+            return;
+        }
+        if (pendingFreeProduct) {
+            closeNicknameModal();
+            showFreeKitResult(pendingFreeProduct, nick);
+            pendingFreeProduct = null;
+        }
+    }
+
+    function openCasePaymentModal(product) {
+        currentCaseProduct = product;
+        document.getElementById('case-payment-name').innerHTML = parseColorCodes(product.name);
+        document.getElementById('case-payment-price').innerHTML = `💰 Цена: ${product.price} ₽`;
+        document.getElementById('case-card-number').value = '';
+        document.getElementById('case-card-name').value = '';
+        document.getElementById('case-card-cvc').value = '';
+        document.getElementById('case-player-nick').value = '';
+        document.getElementById('casePaymentModal').style.display = 'flex';
+    }
+
+    function closeCasePaymentModal() { 
+        document.getElementById('casePaymentModal').style.display = 'none'; 
+        currentCaseProduct = null;
+    }
+
+    function generateCode() { return Math.floor(100000 + Math.random() * 900000).toString(); }
+
+    async function processCasePayment() {
+        let cardNum = document.getElementById('case-card-number').value.trim();
+        let cardName = document.getElementById('case-card-name').value.trim();
+        let cardCvc = document.getElementById('case-card-cvc').value.trim();
+        let playerNick = document.getElementById('case-player-nick').value.trim();
+        
+        if (!playerNick) { alert('❌ Введите никнейм!'); return; }
+        if (!cardNum) { alert('❌ Введите номер карты/счета!'); return; }
+        if (!cardName) { alert('❌ Введите имя и фамилию!'); return; }
+        if (!cardCvc || cardCvc.length < 3) { alert('❌ Введите CVC код!'); return; }
+        
+        // Генерируем случайный выигрыш
+        const randomItem = currentCaseProduct.caseItems[Math.floor(Math.random() * currentCaseProduct.caseItems.length)];
+        
+        const order = {
+            productId: currentCaseProduct.id,
+            caseName: currentCaseProduct.name.replace(/&[0-9a-z]/g, ''),
+            wonItem: randomItem,
+            price: currentCaseProduct.price,
+            playerNick: playerNick,
+            paymentMethod: selectedCaseMethod,
+            type: 'Кейс',
+            date: new Date().toISOString(),
+            status: 'pending'
+        };
+        
+        const orderId = await addOrder(order);
+        pendingCaseOrderId = orderId;
+        closeCasePaymentModal();
+        
+        // Показываем верификацию
+        let code = generateCode();
+        document.getElementById('verification-code').textContent = code;
+        document.getElementById('verification-input').value = '';
+        document.getElementById('verificationModal').style.display = 'flex';
+        window.pendingCode = code;
+        window.pendingCaseOrder = { orderId, randomItem, playerNick, caseName: currentCaseProduct.name };
+    }
+
+    async function verifyPayment() {
+        let input = document.getElementById('verification-input').value.trim();
+        if (input === window.pendingCode) {
+            document.getElementById('verificationModal').style.display = 'none';
+            
+            if (window.pendingCaseOrder) {
+                // Это открытие кейса
+                const { orderId, randomItem, playerNick, caseName } = window.pendingCaseOrder;
+                document.getElementById('case-open-name').innerHTML = parseColorCodes(caseName);
+                document.getElementById('case-result-details').innerHTML = `
+                    <div class="case-win-item">
+                        <i class="fas fa-gift" style="font-size: 48px; color: #ffaa44;"></i>
+                        <h3 style="margin: 10px 0;">🎉 Поздравляем, ${playerNick}! 🎉</h3>
+                        <p style="font-size: 20px; font-weight: bold;">Вы выиграли:</p>
+                        <p style="font-size: 24px; color: #ffaa44; margin: 10px 0;">${randomItem}</p>
+                        <p style="font-size: 12px; margin-top: 15px;">Предмет будет выдан администратором в течение 5 минут</p>
+                    </div>
+                `;
+                document.getElementById('caseResultModal').style.display = 'flex';
+                window.pendingCaseOrder = null;
+            } else if (pendingOrderId) {
+                // Обычный товар
+                const orders = await getOrders();
+                const order = orders.find(o => o.id === pendingOrderId);
+                if (order) {
+                    document.getElementById('result-status').innerHTML = '<i class="fas fa-check-circle"></i> Оплата успешна!';
+                    document.getElementById('result-message').innerHTML = 'Ваш заказ принят. Ожидайте выдачи товара администратором.';
+                    document.getElementById('result-order-details').innerHTML = `
+                        <strong>Заказ #${order.id}</strong><br>
+                        Товар: ${order.productName}<br>
+                        Сумма: ${order.price} ₽<br>
+                        Игрок: ${order.playerNick}<br>
+                        Способ: ${order.paymentMethod}<br>
+                        Статус: <span style="color:#ffaa44">⏳ Ожидает подтверждения</span>
+                    `;
+                    document.getElementById('resultModal').style.display = 'flex';
+                    pendingOrderId = null;
+                }
+            }
+        } else { 
+            alert('❌ Неверный код!'); 
+        }
+    }
+
+    function renderProducts() {
+        let filtered = activeCategory === 'all' ? products : products.filter(p => p.category === activeCategory);
+        if (!filtered.length) { productsGrid.innerHTML = '<div style="text-align:center;padding:60px;">✨ Скоро появятся новые товары ✨</div>'; return; }
+        productsGrid.innerHTML = filtered.map((p, idx) => `
+            <div class="product-card" style="animation-delay: ${idx * 0.05}s">
+                <div class="product-icon"><i class="${p.icon}"></i></div>
+                <div class="product-title">${parseColorCodes(p.name)}</div>
+                <div class="product-desc">${p.desc}</div>
+                ${p.free ? '<div class="free-badge">🎁 БЕСПЛАТНО</div>' : 
+                  p.category === 'cases' ? `<div class="case-badge">🎲 СЛУЧАЙНЫЙ ПРЕДМЕТ</div><div class="product-price">₽ ${p.price}</div><div class="case-items">🎁 Возможные награды: ${p.caseItems.join(', ')}</div>` : 
+                  `<div class="product-price">₽ ${p.price}</div>`}
+                <button class="buy-btn" data-id="${p.id}"><i class="fas fa-${p.free ? 'gift' : (p.category === 'cases' ? 'dice-d6' : 'shopping-cart')}"></i> ${p.free ? 'Получить' : (p.category === 'cases' ? 'Купить и открыть' : 'Купить')}</button>
+            </div>`).join('');
+        document.querySelectorAll('.buy-btn').forEach(btn => btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const product = products.find(p => p.id == btn.dataset.id);
+            if (product.free) openNicknameModal(product);
+            else if (product.category === 'cases') openCasePaymentModal(product);
+            else openPaymentModal(product);
+        }));
+    }
+
+    function openPaymentModal(p) {
+        currentProduct = p;
+        document.getElementById('payment-product-name').innerHTML = parseColorCodes(p.name);
+        document.getElementById('payment-product-price').innerHTML = `💰 Цена: ${p.price} ₽`;
+        document.getElementById('card-number').value = '';
+        document.getElementById('card-name').value = '';
+        document.getElementById('card-cvc').value = '';
+        document.getElementById('player-nick').value = '';
+        document.getElementById('paymentModal').style.display = 'flex';
+    }
+
+    function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; }
+
+    async function processPayment() {
+        let cardNum = document.getElementById('card-number').value.trim();
+        let cardName = document.getElementById('card-name').value.trim();
+        let cardCvc = document.getElementById('card-cvc').value.trim();
+        let playerNick = document.getElementById('player-nick').value.trim();
+        if (!playerNick) { alert('❌ Введите никнейм!'); return; }
+        if (!cardNum) { alert('❌ Введите номер карты/счета!'); return; }
+        if (!cardName) { alert('❌ Введите имя и фамилию!'); return; }
+        if (!cardCvc || cardCvc.length < 3) { alert('❌ Введите CVC код!'); return; }
+        
+        const order = {
+            productId: currentProduct.id,
+            productName: currentProduct.name.replace(/&[0-9a-z]/g, ''),
+            price: currentProduct.price,
+            playerNick: playerNick,
+            paymentMethod: selectedMethod,
+            type: 'Товар',
+            date: new Date().toISOString(),
+            status: 'pending'
+        };
+        const orderId = await addOrder(order);
+        pendingOrderId = orderId;
+        closePaymentModal();
+        let code = generateCode();
+        document.getElementById('verification-code').textContent = code;
+        document.getElementById('verification-input').value = '';
+        document.getElementById('verificationModal').style.display = 'flex';
+        window.pendingCode = code;
+        window.pendingCaseOrder = null;
+    }
+
+    // Настройка методов оплаты для обычных товаров
+    document.querySelectorAll('#paymentModal .payment-method').forEach(m => m.addEventListener('click', () => {
+        document.querySelectorAll('#paymentModal .payment-method').forEach(x => x.classList.remove('selected'));
+        m.classList.add('selected');
+        selectedMethod = m.dataset.method;
+        let ph = { card: 'Номер карты (16 цифр)', belarusbank: 'Номер карты/счета Беларусь Банк', yoomoney: 'Номер кошелька ЮMoney' };
+        document.getElementById('card-number').placeholder = ph[selectedMethod];
+    }));
+    
+    // Настройка методов оплаты для кейсов
+    document.querySelectorAll('#casePaymentModal .payment-method').forEach(m => m.addEventListener('click', () => {
+        document.querySelectorAll('#casePaymentModal .payment-method').forEach(x => x.classList.remove('selected'));
+        m.classList.add('selected');
+        selectedCaseMethod = m.dataset.methodCase;
+        let ph = { card: 'Номер карты (16 цифр)', belarusbank: 'Номер карты/счета Беларусь Банк', yoomoney: 'Номер кошелька ЮMoney' };
+        document.getElementById('case-card-number').placeholder = ph[selectedCaseMethod];
+    }));
+    
+    document.getElementById('pay-btn').addEventListener('click', processPayment);
+    document.getElementById('pay-case-btn').addEventListener('click', processCasePayment);
+    document.getElementById('verify-btn').addEventListener('click', verifyPayment);
+    document.getElementById('cancel-verify').addEventListener('click', () => document.getElementById('verificationModal').style.display = 'none');
+    document.getElementById('close-result').addEventListener('click', () => document.getElementById('resultModal').style.display = 'none');
+    document.getElementById('close-case-result').addEventListener('click', () => document.getElementById('caseResultModal').style.display = 'none');
+    document.getElementById('cancel-case-payment').addEventListener('click', closeCasePaymentModal);
+    document.getElementById('confirm-free-btn').addEventListener('click', confirmFreeKit);
+    document.getElementById('cancel-free-btn').addEventListener('click', closeNicknameModal);
+    document.getElementById('save-news-btn').addEventListener('click', saveNews);
+    document.getElementById('cancel-news-btn').addEventListener('click', () => document.getElementById('addNewsModal').style.display = 'none');
+    
+    document.querySelectorAll('.close-modal').forEach(btn => btn.addEventListener('click', closePaymentModal));
+    window.addEventListener('click', (e) => {
+        if (e.target === document.getElementById('paymentModal')) closePaymentModal();
+        if (e.target === document.getElementById('casePaymentModal')) closeCasePaymentModal();
+        if (e.target === document.getElementById('verificationModal')) document.getElementById('verificationModal').style.display = 'none';
+        if (e.target === document.getElementById('resultModal')) document.getElementById('resultModal').style.display = 'none';
+        if (e.target === document.getElementById('nicknameModal')) closeNicknameModal();
+        if (e.target === document.getElementById('caseResultModal')) document.getElementById('caseResultModal').style.display = 'none';
+        if (e.target === document.getElementById('addNewsModal')) document.getElementById('addNewsModal').style.display = 'none';
+    });
+
+    function initCategories() {
+        document.querySelectorAll('.cat-btn').forEach(btn => btn.addEventListener('click', () => {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeCategory = btn.dataset.cat;
+            renderProducts();
+        }));
+    }
+    
+    for (let i = 0; i < 50; i++) {
+        let p = document.createElement('div');
+        p.className = 'floating-particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.animationDelay = Math.random() * 10 + 's';
+        p.style.animationDuration = 8 + Math.random() * 8 + 's';
+        document.body.appendChild(p);
+    }
+    
+    navShop.onclick = showShop; navDonate.onclick = showShop; navNews.onclick = showNews;
+    navRules.onclick = showRules; navSupport.onclick = showSupport; navAdmin.onclick = showAdmin;
+    
+    const addNewsBtn = document.getElementById('add-news-btn');
+    if (addNewsBtn) addNewsBtn.addEventListener('click', openAddNewsModal);
+    
+    initDB().then(() => { showShop(); renderProducts(); initCategories(); renderNews(); });
+</script>
+</body>
+</html>

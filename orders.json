@@ -1,0 +1,38 @@
+{
+  "1774517404": {
+    "id": "1774517404",
+    "product": "👑 ПРЕФИКС ЛОРД",
+    "price": 129,
+    "stars": 142,
+    "player": "GeimerDanikHack",
+    "user_id": 5160379987,
+    "username": "GeimerDanikHack",
+    "date": "2026-03-26 12:30:04",
+    "status": "pending",
+    "payment_method": "stars"
+  },
+  "1774517415": {
+    "id": "1774517415",
+    "product": "👑 ПРЕФИКС ЛОРД",
+    "price": 129,
+    "stars": 142,
+    "player": "/start",
+    "user_id": 5160379987,
+    "username": "GeimerDanikHack",
+    "date": "2026-03-26 12:30:15",
+    "status": "pending",
+    "payment_method": "stars"
+  },
+  "1774530744": {
+    "id": "1774530744",
+    "product": "🏷️ ПРЕФИКС ПЛЮС",
+    "price_rub": 19,
+    "player": "geimer",
+    "user_id": 5160379987,
+    "username": "GeimerDanikHack",
+    "date": "2026-03-26 16:12:24",
+    "status": "completed",
+    "payment_method": "card",
+    "confirmed_at": "2026-03-26 16:12:37"
+  }
+}

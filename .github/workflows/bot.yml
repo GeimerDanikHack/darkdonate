@@ -1,0 +1,26 @@
+name: DarkDonate Bot
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '*/5 * * * *'  # Перезапуск каждые 5 минут
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: pip install pyTelegramBotAPI requests
+      
+      - name: Run Telegram Bot
+        run: python bot_fixed.py
+        continue-on-error: true

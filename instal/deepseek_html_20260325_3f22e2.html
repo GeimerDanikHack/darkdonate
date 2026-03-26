@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarkDonate | Реальная оплата через FreeKassa</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a2a, #1a1a3a);
+            color: #fff;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; padding: 30px; }
+        .logo h1 { font-size: 48px; background: linear-gradient(135deg, #c8a2ff, #8a5cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; margin: 40px 0; }
+        .product-card { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 25px; text-align: center; backdrop-filter: blur(10px); transition: 0.3s; }
+        .product-card:hover { transform: translateY(-5px); background: rgba(138,92,255,0.2); }
+        .product-icon { font-size: 48px; margin-bottom: 15px; }
+        .product-title { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+        .product-price { font-size: 28px; font-weight: bold; color: #ffaa44; margin: 15px 0; }
+        .buy-btn { background: linear-gradient(135deg, #8a5cff, #5a2cd8); border: none; padding: 12px 25px; border-radius: 50px; color: white; font-weight: bold; cursor: pointer; width: 100%; }
+        .nav { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .nav-btn { background: rgba(138,92,255,0.2); border: 1px solid #8a5cff; padding: 10px 25px; border-radius: 50px; color: white; cursor: pointer; transition: 0.3s; }
+        .nav-btn:hover { background: #8a5cff; }
+        .section { display: none; }
+        .section.active { display: block; }
+        .rules-container, .support-container { background: rgba(255,255,255,0.1); border-radius: 25px; padding: 30px; margin: 20px 0; }
+        .rule-card { background: rgba(138,92,255,0.1); border-radius: 15px; padding: 15px; margin-bottom: 15px; border-left: 3px solid #8a5cff; }
+        .support-card { background: rgba(138,92,255,0.2); border-radius: 20px; padding: 20px; text-align: center; margin: 15px 0; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: #1a1a2a; border-radius: 30px; padding: 30px; max-width: 400px; width: 90%; text-align: center; border: 1px solid #8a5cff; }
+        .modal-content input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 50px; border: none; background: #2a2a3a; color: white; }
+        .footer { text-align: center; padding: 30px; border-top: 1px solid rgba(138,92,255,0.3); margin-top: 40px; }
+        @media (max-width: 768px) { .logo h1 { font-size: 32px; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <h1><i class="fas fa-skull"></i> DARKDONATE</h1>
+            <p>⚡ РЕАЛЬНЫЙ ДОНАТ МАГАЗИН | ПРИЁМ КАРТ ⚡</p>
+        </div>
+    </div>
+
+    <div class="nav">
+        <button class="nav-btn" onclick="showSection('shop')">🛒 МАГАЗИН</button>
+        <button class="nav-btn" onclick="showSection('rules')">📜 ПРАВИЛА</button>
+        <button class="nav-btn" onclick="showSection('support')">🎧 ПОДДЕРЖКА</button>
+    </div>
+
+    <!-- Магазин -->
+    <div id="shop-section" class="section active">
+        <div class="products-grid" id="products-grid"></div>
+    </div>
+
+    <!-- Правила -->
+    <div id="rules-section" class="section">
+        <div class="rules-container">
+            <h2>⚔️ ПРАВИЛА СЕРВЕРА</h2>
+            <div class="rule-card"><strong>1. ОБЩЕНИЕ</strong><br>Запрещены оскорбления, спам, реклама, токсичность</div>
+            <div class="rule-card"><strong>2. ИГРОВОЙ ПРОЦЕСС</strong><br>Запрещены читы, макросы, гриферство, X-Ray</div>
+            <div class="rule-card"><strong>3. ДОНАТ</strong><br>Донат — добровольное пожертвование. Возврат только в исключительных случаях</div>
+            <div class="rule-card"><strong>4. АДМИНИСТРАЦИЯ</strong><br>Решение администрации окончательное. Запрещено выдавать себя за админа</div>
+        </div>
+    </div>
+
+    <!-- Поддержка -->
+    <div id="support-section" class="section">
+        <div class="support-container">
+            <h2>🎧 ПОДДЕРЖКА</h2>
+            <div class="support-card"><i class="fab fa-telegram"></i> <strong>Telegram:</strong> @DarkYo_offical</div>
+            <div class="support-card"><i class="fab fa-discord"></i> <strong>Discord:</strong> geminioffical</div>
+            <div class="support-card"><i class="fab fa-viber"></i> <strong>Viber:</strong> +375336426214</div>
+            <div class="support-card"><i class="fab fa-youtube"></i> <strong>YouTube:</strong> @Minecraft-stories0</div>
+            <div class="support-card"><i class="fab fa-tiktok"></i> <strong>TikTok:</strong> @iwantsaveaworld | @dani4ka55055</div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>© 2025 DARKDONATE | Реальный донат магазин</p>
+</div>
+
+<!-- Модалка для оплаты -->
+<div id="paymentModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-credit-card" style="font-size: 48px;"></i>
+        <h3 id="pay-product-name"></h3>
+        <p id="pay-product-price" style="font-size: 24px;"></p>
+        <input type="text" id="player-nick" placeholder="👤 ВАШ НИКНЕЙМ">
+        <p style="font-size: 12px; margin: 10px 0;">После оплаты товар будет выдан автоматически</p>
+        <button id="real-pay-btn" style="background: #44ff88; color: #000; padding: 12px; border-radius: 50px; border: none; font-weight: bold; width: 100%; cursor: pointer;">💳 ОПЛАТИТЬ КАРТОЙ</button>
+        <button onclick="closeModal('paymentModal')" style="background: #666; padding: 12px; border-radius: 50px; border: none; color: white; margin-top: 10px; width: 100%; cursor: pointer;">❌ ОТМЕНА</button>
+    </div>
+</div>
+
+<div id="nicknameModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-gift" style="font-size: 48px;"></i>
+        <h3>Бесплатный кит</h3>
+        <input type="text" id="free-nick" placeholder="👤 ВАШ НИКНЕЙМ">
+        <button onclick="getFreeKit()" style="background: #44ff88; color: #000; padding: 12px; border-radius: 50px; border: none; width: 100%;">🎁 ПОЛУЧИТЬ</button>
+        <button onclick="closeModal('nicknameModal')" style="background: #666; padding: 12px; border-radius: 50px; border: none; color: white; margin-top: 10px; width: 100%;">❌ ОТМЕНА</button>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+<script>
+    // ============================================
+    // 🔴 ВАЖНО: ЗАМЕНИТЕ НА ВАШИ ДАННЫЕ FREECASSA!
+    // ============================================
+    const FREECASSA_MERCHANT_ID = "ВАШ_ID_ПРОДАВЦА";      // ID из личного кабинета FreeKassa
+    const FREECASSA_SECRET_KEY = "ВАШ_СЕКРЕТНЫЙ_КЛЮЧ";   // Секретный ключ для подписи
+    const FREECASSA_API_KEY = "ВАШ_API_КЛЮЧ";             // API ключ для проверки платежей
+    
+    // Ваша карта (для ручных проверок)
+    const MERCHANT_CARD = "9112 3801 3310 4473";
+    
+    // Товары
+    const products = [
+        { id: 1, name: "КИТ СТАРТ", desc: "Бесплатный стартовый набор", price: 0, icon: "fas fa-seedling", category: "kits", free: true },
+        { id: 2, name: "КИТ PLUS", desc: "Полуалмазная броня, меч, 12 золотых яблок", price: 9, icon: "fas fa-plus-circle", category: "kits" },
+        { id: 3, name: "КИТ РЕДКИЙ", desc: "Алмазная броня, меч, 24 алмаза", price: 19, icon: "fas fa-gem", category: "kits" },
+        { id: 4, name: "КИТ ЕПИК", desc: "Полунезерит, меч острота III", price: 29, icon: "fas fa-star", category: "kits" },
+        { id: 5, name: "КИТ МИФИК", desc: "Незерит, меч+копье", price: 37, icon: "fas fa-dragon", category: "kits" },
+        { id: 6, name: "КИТ ЛЕГЕНДАРНЫЙ", desc: "Фулл незерит, меч острота IV", price: 39, icon: "fas fa-crown", category: "kits" },
+        { id: 7, name: "КИТ БОГА", desc: "Божественный набор", price: 99, icon: "fas fa-bolt", category: "kits" },
+        { id: 8, name: "ПРЕФИКС ПЛЮС", desc: "Префикс Plus", price: 19, icon: "fas fa-plus-square", category: "prefixes" },
+        { id: 9, name: "ПРЕФИКС АЛМАЗ", desc: "Префикс Алмаз", price: 39, icon: "fas fa-gem", category: "prefixes" },
+        { id: 10, name: "ПРЕФИКС ДРАКОН", desc: "Префикс Дракон", price: 59, icon: "fas fa-dragon", category: "prefixes" },
+        { id: 11, name: "ПРЕФИКС ЛОРД", desc: "Префикс Лорд", price: 129, icon: "fas fa-crown", category: "prefixes" },
+        { id: 12, name: "ПРЕФИКС ТЕМНЫЙ ЛОРД", desc: "Самый редкий", price: 199, icon: "fas fa-skull", category: "prefixes" }
+    ];
+    
+    let currentProduct = null;
+    let pendingFreeProduct = null;
+    let currentFilter = 'all';
+    
+    // Рендер товаров
+    function renderProducts() {
+        let filtered = currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter);
+        document.getElementById('products-grid').innerHTML = filtered.map(p => `
+            <div class="product-card">
+                <div class="product-icon"><i class="${p.icon}"></i></div>
+                <div class="product-title">${p.name}</div>
+                <div class="product-desc" style="font-size: 12px; margin: 10px 0;">${p.desc}</div>
+                ${p.free ? '<div style="background:#44ff88; color:#000; padding:5px 15px; border-radius:50px; display:inline-block; margin:10px 0;">🎁 БЕСПЛАТНО</div>' : `<div class="product-price">💰 ${p.price} ₽</div>`}
+                <button class="buy-btn" onclick="${p.free ? `openFreeKit(${p.id})` : `openPayment(${p.id})`}">${p.free ? '🎁 ПОЛУЧИТЬ' : '💳 КУПИТЬ'}</button>
+            </div>
+        `).join('');
+    }
+    
+    function openFreeKit(id) {
+        pendingFreeProduct = products.find(p => p.id === id);
+        document.getElementById('nicknameModal').style.display = 'flex';
+    }
+    
+    function getFreeKit() {
+        let nick = document.getElementById('free-nick').value.trim();
+        if (!nick) { alert('Введите никнейм!'); return; }
+        closeModal('nicknameModal');
+        alert(`✅ Кит "${pendingFreeProduct.name}" выдан игроку ${nick}!`);
+        document.getElementById('free-nick').value = '';
+    }
+    
+    function openPayment(id) {
+        currentProduct = products.find(p => p.id === id);
+        document.getElementById('pay-product-name').innerHTML = currentProduct.name;
+        document.getElementById('pay-product-price').innerHTML = `💰 ${currentProduct.price} ₽`;
+        document.getElementById('paymentModal').style.display = 'flex';
+    }
+    
+    // ============================================
+    // 🔴 РЕАЛЬНАЯ ОПЛАТА ЧЕРЕЗ FREECASSA
+    // ============================================
+    function processRealPayment() {
+        let nick = document.getElementById('player-nick').value.trim();
+        if (!nick) { alert('❌ Введите ваш никнейм!'); return; }
+        
+        // Сохраняем заказ в localStorage
+        let orders = JSON.parse(localStorage.getItem('darkdonate_orders') || '[]');
+        let order = {
+            id: Date.now(),
+            product: currentProduct.name,
+            price: currentProduct.price,
+            player: nick,
+            date: new Date().toLocaleString(),
+            status: 'pending',
+            paymentId: null
+        };
+        orders.push(order);
+        localStorage.setItem('darkdonate_orders', JSON.stringify(orders));
+        
+        // ============================================
+        // 🔴 ЕСЛИ У ВАС ЕСТЬ FREECASSA - РАСКОММЕНТИРУЙТЕ ЭТОТ БЛОК
+        // ============================================
+        /*
+        const paymentAmount = currentProduct.price;
+        const orderId = order.id;
+        const description = `Донат DarkYo: ${currentProduct.name} для ${nick}`;
+        
+        // Формируем ссылку на оплату FreeKassa
+        const paymentUrl = `https://pay.freekassa.ru/?m=${FREECASSA_MERCHANT_ID}&oa=${paymentAmount}&o=${orderId}&s=${description}&currency=RUB&i=1`;
+        
+        // Открываем окно оплаты
+        window.open(paymentUrl, '_blank', 'width=800,height=600');
+        
+        alert(`✅ Заказ #${orderId} создан! Оплатите ${currentProduct.price} ₽ через открывшееся окно. После оплаты товар будет выдан автоматически.`);
+        */
+        
+        // ============================================
+        // 🔴 ВРЕМЕННО - РУЧНОЙ РЕЖИМ (ПОКА НЕ НАСТРОИТЕ FREECASSA)
+        // ============================================
+        alert(`✅ ЗАКАЗ СОЗДАН!\n\nТовар: ${currentProduct.name}\nСумма: ${currentProduct.price} ₽\nИгрок: ${nick}\n\n💳 ОПЛАТА:\nПереведите ${currentProduct.price} ₽ на карту:\n${MERCHANT_CARD}\n\nВ комментарии укажите: ${nick}\n\nПосле оплаты нажмите "ОПЛАТИЛ" в админ-панели.\n\n📞 Поддержка: @DarkYo_offical`);
+        
+        closeModal('paymentModal');
+        document.getElementById('player-nick').value = '';
+    }
+    
+    document.getElementById('real-pay-btn').onclick = processRealPayment;
+    
+    function showSection(section) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(`${section}-section`).classList.add('active');
+    }
+    
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
+    }
+    
+    window.onclick = function(e) {
+        if (e.target.classList.contains('modal')) e.target.style.display = 'none';
+    }
+    
+    renderProducts();
+</script>
+
+<!-- ============================================ -->
+<!-- ИНСТРУКЦИЯ ПО ПОДКЛЮЧЕНИЮ РЕАЛЬНОЙ ОПЛАТЫ -->
+<!-- ============================================ -->
+<div style="display: none;">
+<h3>🔴 ИНСТРУКЦИЯ ДЛЯ РЕАЛЬНОГО ПРИЁМА ДЕНЕГ:</h3>
+
+1. ЗАРЕГИСТРИРУЙТЕСЬ В FREECASSA:
+   → https://freekassa.ru/
+   → Заполните анкету, подтвердите email
+
+2. ПОЛУЧИТЕ ДАННЫЕ:
+   → В личном кабинете найдите "MERCHANT ID" (ID продавца)
+   → В настройках создайте "Секретный ключ" (Secret Key)
+   → Скопируйте API ключ
+
+3. ВСТАВЬТЕ ДАННЫЕ В КОД:
+   → Найдите в коде строки:
+     const FREECASSA_MERCHANT_ID = "ВАШ_ID_ПРОДАВЦА";
+     const FREECASSA_SECRET_KEY = "ВАШ_СЕКРЕТНЫЙ_КЛЮЧ";
+   → Замените на ваши реальные данные
+
+4. РАСКОММЕНТИРУЙТЕ БЛОК ОПЛАТЫ:
+   → В функции processRealPayment() удалите комментарии /* */ вокруг блока с FreeKassa
+   → Закомментируйте или удалите блок "ВРЕМЕННО - РУЧНОЙ РЕЖИМ"
+
+5. НАСТРОЙТЕ WEBHOOK (ОПЦИОНАЛЬНО):
+   → В FreeKassa укажите URL для уведомлений:
+     https://ваш-сайт.com/payment-callback
+   → Это позволит автоматически выдавать товар после оплаты
+
+6. ГОТОВО! ДЕНЬГИ БУДУТ ПОСТУПАТЬ НА ВАШ СЧЁТ В FREECASSA,
+   ОТКУДА ИХ МОЖНО ВЫВЕСТИ НА КАРТУ
+</div>
+</body>
+</html>
